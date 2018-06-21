@@ -21,6 +21,11 @@ MAIL_PASSWORD = '*****' #Change this to yours
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
 
+#Image upload settings
+UPLOAD_FOLDER = '/path/to/the/uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+MAX_CONTENT_PATH = 16 * 1024 * 1024
+
 #ORM settings
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@localhost/{}'.format(DB_USER, DB_PASSWORD, DB) #Leave as is
 SQLALCHEMY_TRACK_MODIFICATIONS = False #Leave as is

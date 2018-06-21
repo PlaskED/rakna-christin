@@ -46,3 +46,7 @@ def send_email(to, subject, template):
         sender=app.config['MAIL_USERNAME']
     )
     mail.send(msg)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']

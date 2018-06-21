@@ -6,6 +6,11 @@ def blacklistToken(_jti):
     models.db.session.add(revoked_roken)
     return helpers.commitResponse(models.db.session, {}, revoked_token)
 
+def saveUploadPath(_path, _name):
+    image_object = models.Image(name=_name, path=_path)
+    models.db.session.add(image_object)
+    return helpers.commitResponse(models.db.session, {}, image_object)
+
 def getUser(uid):
     return models.User.query.get(uid)
 

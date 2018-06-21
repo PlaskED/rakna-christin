@@ -3,6 +3,8 @@ from flask import render_template, request
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                         jwt_required, jwt_refresh_token_required,
                         get_jwt_identity, get_raw_jwt)
+from werkzeug.utils import secure_filename
+import os
 from flask_cors import CORS, cross_origin
 CORS(app)
 
@@ -108,11 +110,20 @@ def getImages(index):
     res['data'] = dbapi.getImages(index)
     return helpers.handleResponse(res)
 
-@app.route('/api/image/upload', methods=['POST'])
+@app.route('/api/image/upload', methods=['GET', 'POST'])
 @jwt_required
 @cross_origin(headers=['Content-Type'])
 def uploadImage():
-    pass
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+             f = request.files['file']
+             f.save(secure_filename(f.filename))
+             res = {}
+             #res['data'] = dbapi.saveUploadPath(path, filename)
+             return helpers.handleResponse(res)
+    err = helpers.generateError('No file found', 400)
+    return helpers.handleResponse(err)
 
 @app.route('/api/image/delete/<int:iid>', methods=['DELETE'])
 @jwt_required
