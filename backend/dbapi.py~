@@ -1,0 +1,28 @@
+from backend import models, errorhelper
+from passlib.apps import custom_app_context as pwd_context
+from itsdangerous import (TimedJSONWebSignatureSerializer
+                          as Serializer, BadSignature, SignatureExpired)
+import time
+#from sqlalchemy import desc
+def currentTime():
+    return time.strftime('%Y-%m-%d %H:%M:%S')
+
+def getUser(uid):
+    return models.User.query.get(uid)
+
+def getUserByEmail(_email):
+    return models.User.query.filter_by(email=_email).first()
+
+def getUserByName(_username):
+    return models.User.query.filter_by(username=_username).first()
+
+def getUserByToken(token):
+    s = Serializer(models.app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token)
+    except SignatureExpired:
+        return None #valid but expired token
+    except BadSignature:
+        return None #invalid token
+    
+    return getUser(data['id'])

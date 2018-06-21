@@ -1,0 +1,14 @@
+from backend.dbapp import db as db
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    checked = db.Column(db.Boolean, nullable=False)
+    comment = db.Column(db.String(2048), nullable=False)
+
+    def __repr__(self):
+        return '<Notification %r>' % self.id
+
+    def to_json(self):
+        return {'id':self.id, 'checked':self.checked,
+                'comment':self.comment}
+    
