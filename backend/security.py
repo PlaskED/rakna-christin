@@ -6,8 +6,8 @@ def hashPassword(user, password):
 def verifyPassword(user, password):
     return pwd_context.verify(password, user.password_hash)
 
-def isTokenBlacklisted(_token):
-    t = models.RevokedToken.query.filter_by(token=_token).first()
+def isTokenBlacklisted(_jti):
+    t = models.RevokedToken.query.filter_by(jti=_jti).first()
     if t is None:
         return False
     return True

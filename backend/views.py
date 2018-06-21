@@ -1,10 +1,15 @@
-from backend import app, dbapi, helpers, security
+from backend import app, dbapi, helpers, security, jwt
 from flask import render_template, request
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                         jwt_required, jwt_refresh_token_required,
                         get_jwt_identity, get_raw_jwt)
 from flask_cors import CORS, cross_origin
 CORS(app)
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    return dbapi.isTokenBlacklisted(jti)
 
 def invalidUser(user, password):
     if user is None:
@@ -35,11 +40,25 @@ def getAccessToken():
         return helpers.handleResponse(err)
 
     access_token = create_access_token(identity=obj['username'])
+    refresh_token = create_refresh_token(identity=obj['username'])
     res = {}
     res['data'] = {
-        'access_token': access_token
+        'access_token': access_token,
+        'refresh_token': refresh_token,
     }
     
+    return helpers.handleResponse(res, 200)
+
+@app.route('/api/token/refresh', methods=['POST'])
+@jwt_refresh_token_required
+@cross_origin(headers=['Content-Type'])
+def refreshAccessToken():
+    username = get_jwt_identity()
+    res = {
+        'data': {
+            'access_token': create_access_token(identity=username)
+        }
+    }
     return helpers.handleResponse(res, 200)
 
 @app.route('/api/user', methods=['GET'])
@@ -50,6 +69,14 @@ def user():
     res['data'] = dbapi.getUserByName(get_jwt_identity()).to_json()
     return helpers.handleResponse(res)
 
+@app.route('/api/logout', methods=['GET'])
+@jwt_required
+def logout():
+    jti = get_raw_jwt()['jti']
+    res = {}
+    res['data'] = dbapi.blacklistToken(jti)
+    return helpers.handleResponse(res)
+        
 @app.route('/api/notifications/<int:index>', methods=['GET'])
 @jwt_required
 @cross_origin(headers=['Content-Type'])

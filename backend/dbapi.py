@@ -1,6 +1,11 @@
 from backend import models, helpers, security
 from sqlalchemy import desc
 
+def blacklistToken(_jti):
+    revoken_token = models.RevokedToken(jti=_jti)
+    models.db.session.add(revoked_roken)
+    return helpers.commitResponse(models.db.session, {}, revoked_token)
+
 def getUser(uid):
     return models.User.query.get(uid)
 
