@@ -2,6 +2,14 @@ from backend import app, mail
 from flask import jsonify
 from flask_mail import Message
 
+def generateError(msg, code):
+    res = {}
+    res['error'] = {
+        "code": code,
+        "message": msg
+    }
+    return res
+
 def handleResponse(res, success=200):
     response = jsonify(res)
     if 'data' in res:
@@ -9,7 +17,7 @@ def handleResponse(res, success=200):
     elif 'error' in res:    
         response.status_code = res['error']['code']
     else:
-        response = jsonify(errorhelper.generateError(500, 
+        response = jsonify(generateError(500, 
                                 'internal server error'))
         response.status_code = 500
     return response
@@ -46,7 +54,3 @@ def send_email(to, subject, template):
         sender=app.config['MAIL_USERNAME']
     )
     mail.send(msg)
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']

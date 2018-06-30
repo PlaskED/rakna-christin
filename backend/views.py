@@ -3,15 +3,18 @@ from flask import render_template, request
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                         jwt_required, jwt_refresh_token_required,
                         get_jwt_identity, get_raw_jwt)
-from werkzeug.utils import secure_filename
-import os
+from flask_uploads import (patch_request_class, configure_uploads,
+                           UploadSet, IMAGES, UploadNotAllowed)
 from flask_cors import CORS, cross_origin
 CORS(app)
+patch_request_class(app) 
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, (photos))
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
-    return dbapi.isTokenBlacklisted(jti)
+    return security.isTokenBlacklisted(jti)
 
 def invalidUser(user, password):
     if user is None:
@@ -114,15 +117,18 @@ def getImages(index):
 @jwt_required
 @cross_origin(headers=['Content-Type'])
 def uploadImage():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-             f = request.files['file']
-             f.save(secure_filename(f.filename))
-             res = {}
-             #res['data'] = dbapi.saveUploadPath(path, filename)
-             return helpers.handleResponse(res)
-    err = helpers.generateError('No file found', 400)
+    if request.method == 'POST' and 'photo' in request.files:
+        try:
+            _filename = photos.save(request.files['photo'])
+        except UploadNotAllowed:
+            err = helpers.generateError('Upload not allowed', 400)
+            return helpers.handleResponse(err)
+        else:
+            path = photos.path(_filename)
+            print("Filename: {}, Path: {}".format( _filename, path))
+            res = dbapi.createImage(_filename, path)
+            return helpers.handleResponse(res)
+    err = helpers.generateError('Bad request', 400)
     return helpers.handleResponse(err)
 
 @app.route('/api/image/delete/<int:iid>', methods=['DELETE'])
