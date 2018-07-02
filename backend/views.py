@@ -31,7 +31,7 @@ def verifyLogin(username, password):
     return True
 
 @app.route('/api/token/get', methods=['POST'])
-def getAccessToken():
+def getTokens():
     obj = request.get_json(silent=True)
 
     if 'username' not in obj:
@@ -48,8 +48,8 @@ def getAccessToken():
     refresh_token = create_refresh_token(identity=obj['username'])
     res = {}
     res['data'] = {
-        'access_token': access_token,
-        'refresh_token': refresh_token,
+        'accessToken': access_token,
+        'refreshToken': refresh_token,
     }
     
     return helpers.handleResponse(res, 200)
@@ -59,24 +59,28 @@ def getAccessToken():
 @cross_origin(headers=['Content-Type'])
 def refreshAccessToken():
     username = get_jwt_identity()
-    res = {
-        'data': {
-            'access_token': create_access_token(identity=username)
-        }
-    }
+    res = {}
+    res['data'] = { 'accessToken': create_access_token(identity=username) }
     return helpers.handleResponse(res, 200)
 
-@app.route('/api/user', methods=['GET'])
+@app.route('/api/user/get', methods=['GET'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
-def user():
+def getUser():
     res = {}
     res['data'] = dbapi.getUserByName(get_jwt_identity()).to_json()
     return helpers.handleResponse(res)
 
-@app.route('/api/logout', methods=['GET'])
+@app.route('/api/logout/access', methods=['GET'])
 @jwt_required
-def logout():
+def logoutAccess():
+    jti = get_raw_jwt()['jti']
+    res = {}
+    res['data'] = dbapi.blacklistToken(jti)
+    return helpers.handleResponse(res)
+
+@app.route('/api/logout/refresh', methods=['GET'])
+@jwt_refresh_token_required
+def logoutRefresh():
     jti = get_raw_jwt()['jti']
     res = {}
     res['data'] = dbapi.blacklistToken(jti)
