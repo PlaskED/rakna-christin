@@ -12,6 +12,10 @@ export const TOKEN_REFRESH_ERROR = 'TOKEN_REFRESH_ERROR'
 
 export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN'
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
+
+export const USER_PENDING = 'USER_PENDING'
+export const USER_SUCCESS = 'USER_SUCCESS'
+export const USER_ERROR = 'USER_ERROR'
 export const SET_USER = 'SET_USER'
 
 

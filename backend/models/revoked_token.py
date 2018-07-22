@@ -2,7 +2,10 @@ from backend.dbapp import db as db
 
 class RevokedToken(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    jti = db.Column(db.String(120))
+    jti = db.Column(db.String(256), unique=True, nullable=False)
 
-    def to_json():
-        return {'msg': 'token revoked'}
+    def __repr__(self):
+        return '<RevokenToken %r>' % self.id
+
+    def to_json(self):
+        return {'id':self.id, 'jti': self.jti}

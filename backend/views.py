@@ -30,10 +30,10 @@ def verifyLogin(username, password):
         return False
     return True
 
-@app.route('/api/token/get', methods=['POST'])
-def getTokens():
+@app.route('/api/login', methods=['POST'])
+def login():
     obj = request.get_json(silent=True)
-
+      
     if 'username' not in obj:
         err = helpers.generateError('username missing', 400)
         return helpers.handleResponse(err)
