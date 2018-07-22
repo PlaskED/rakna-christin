@@ -9,6 +9,10 @@ def blacklistToken(_jti):
 def getUser(uid):
     return models.User.query.get(uid)
 
+def getAdminMailList():
+    admins = models.User.query.filter_by(admin=true).all()
+    return [admin.to_json()['email'] for admin in admins]
+
 def getUserByEmail(_email):
     return models.User.query.filter_by(email=_email).first()
 

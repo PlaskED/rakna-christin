@@ -99,7 +99,8 @@ def createNotification():
     obj = request.get_json(silent=True)
     res = dbapi.createNotification(obj)
     if 'data' in res:
-        to = app.config['MAIL_NOTIFY_GROUP']
+        #to = app.config['MAIL_NOTIFY_GROUP']
+        to = dbapi.getAdminMailList()
         subject = "Ny intresseanmälan"
         html = render_template('notify.html')
         helpers.send_email(to, subject, html)
@@ -147,6 +148,12 @@ def deleteImage(iid):
 def changeEmail():
     obj = request.get_json(silent=True)
     user = dbapi.getUserByName(get_jwt_identity()).to_json()
-    obj['uid'] =  user['id']
+    obj['uid'] = user['id']
     res = dbapi.changeEmail(obj)
-    return helpers.handleResponse(res)
+    
+    if 'data' in res:
+        to = dbapi.getAdminMailList()
+        subject = "Prenumeration på räknamedchristin"
+        html = render_template('subscription.html')
+        helpers.send_email(to, subject, html)
+    return helpers.handleResponse(res, 200)
