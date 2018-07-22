@@ -1,8 +1,7 @@
 import axios from 'axios'
-
 import { TOKEN_REFRESH_PENDING, TOKEN_REFRESH_SUCCESS, TOKEN_REFRESH_ERROR, 
-	 SET_ACCESS_TOKEN } from './types'
-import { logoutLoginState } from './login'
+	 SET_ACCESS_TOKEN, SET_REFRESH_TOKEN } from './types'
+import { resetLoginState } from './login'
 
 function setTokenRefreshPending(tokenRefreshPending) {
     return {
@@ -25,10 +24,17 @@ function setTokenRefreshError(tokenRefreshError) {
     }
 }
 
-function setAccessToken(accessToken) {
+export function setAccessToken(accessToken) {
     return {
 	type: SET_ACCESS_TOKEN,
 	accessToken
+    }
+}
+
+export function setRefreshToken(refreshToken) {
+    return {
+	type: SET_REFRESH_TOKEN,
+	refreshToken
     }
 }
 
@@ -70,9 +76,16 @@ export function refreshToken(refreshToken) {
 		dispatch(setAccessToken(cb.data.data.accessToken))
 		dispatch(setTokenRefreshSuccess(true))
 	    } else {
-		dispatch(logoutLoginState())
+		dispatch(resetLoginState())
 		dispatch(setTokenRefreshError(cb))
 	    }
 	})
+    }
+}
+
+export function resetTokenState() {
+    return dispatch => {
+	dispatch(setAccessToken(null))
+	dispatch(setRefreshToken(null))
     }
 }

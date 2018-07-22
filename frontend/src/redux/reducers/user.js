@@ -1,5 +1,5 @@
-import { USER_PENDING, USER_SUCCESS, USER_ERROR,
-	 SET_USER } from '../actions/types'
+import { USER_PENDING, USER_SUCCESS,
+	 USER_ERROR, SET_USER } from '../actions/types'
 
 export default function reducerUser(state = {
     userPending: false,

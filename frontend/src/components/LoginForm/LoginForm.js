@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Input, Row, Col, Button, Divider, Icon } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import { login } from '../../redux/actions/login'
 import Loader from '../Loader/Loader'
 
@@ -23,8 +24,8 @@ class LoginForm extends Component {
     }
 
     render() {
-	let {username, password} = this.state
-	let {loginPending, loginSuccess, loginError} = this.props
+	let { username, password } = this.state
+	let { accessToken, loginPending, loginSuccess, loginError } = this.props
 
 	return (
 	    <form name='login-form' onSubmit={this.onSubmit}>
@@ -46,12 +47,14 @@ class LoginForm extends Component {
 		    
 		    <Row>
 			<Button className='color2' 
-			    type='submit' waves='light' icon='send'>Login</Button>
+				type='submit' waves='light' icon='send'>Login</Button>
 		    </Row>
 		    <Row>{ loginPending && <Loader/> }</Row>
 		    <Row>
 			{ loginPending && <p className='center'>Please wait...</p> }
 			{ loginSuccess && <p className='center'>Success.
+			    <Redirect to='/user'/></p> }
+			{ accessToken && <p className='center'>Redirecting.
 			    <Redirect to='/user'/></p> }
 			{ loginError && <p className='text-error center'>
 			    {loginError.message}<Icon>error</Icon></p> }
@@ -67,8 +70,8 @@ const mapStateToProps = (state) => {
 	loginPending: state.reducerLogin.loginPending,
 	loginSuccess: state.reducerLogin.loginSuccess,
 	loginError: state.reducerLogin.loginError,
-	accessToken: state.reducerLogin.accessToken,
-	refreshToken: state.reducerLogin.refreshToken
+	accessToken: state.reducerToken.accessToken,
+	refreshToken: state.reducerToken.refreshToken
     }
 }
 

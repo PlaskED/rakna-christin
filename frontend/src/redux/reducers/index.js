@@ -3,17 +3,18 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import reducerLogin from './login'
+import reducerLogout from './logout'
 import reducerUser from './user'
 import reducerToken from './token'
 
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['reducerLogin', 'reducerUser']
+    whitelist: ['reducerToken', 'reducerUser']
 }
 
-const loginPersistConfig = {
-    key: 'reducerLogin',
+const tokenPersistConfig = {
+    key: 'reducerToken',
     storage: storage,
     whitelist: ['accessToken', 'refreshToken']
 }
@@ -25,9 +26,10 @@ const userPersistConfig = {
 }
 
 const rootReducer = combineReducers({
-    reducerLogin: persistReducer(loginPersistConfig, reducerLogin),
+    reducerLogin: reducerLogin,
+    reducerLogogout: reducerLogout,
     reducerUser: persistReducer(userPersistConfig, reducerUser),
-    reducerToken: reducerToken,
+    reducerToken: persistReducer(tokenPersistConfig, reducerToken)
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

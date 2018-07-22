@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
-import { Card, CardPanel, CardTitle, Chip, Row, Col } from 'react-materialize'
-import Loader from '../Loader/Loader'
+import { Row, CardPanel, Divider } from 'react-materialize'
 import { connect } from 'react-redux'
+
+import Loader from '../Loader/Loader'
 import { getUser } from '../../redux/actions/user'
 
 class UserInfo extends Component {
     componentDidMount() {
 	let { accessToken } = this.props
-	this.props.getUser(accessToken)
+	if (accessToken)
+	    this.props.getUser(accessToken)
     }
 
     render() {
-	let { userPending, userSuccess, userError } = this.props
+	let { user, userPending, userSuccess, userError } = this.props
 	if (userPending) {
 	    return (
 		<Row><Loader/></Row>
@@ -23,11 +24,13 @@ class UserInfo extends Component {
 		<p className='text-error center'>{userError.message}</p>
 	    )
 	}
-	if (userSuccess) {
+	if (userSuccess && user) {
 	    return (
-		<div>
-		    
-		</div>
+		<CardPanel>
+		    <h4 className='username'>{user.username}</h4> 
+		    <Divider/>
+		    <p>Notifikationer skickas till: {user.email}</p>
+		</CardPanel>
 	    )
 	} else { return null }
     }
@@ -35,7 +38,7 @@ class UserInfo extends Component {
 
 const mapStateToProps = (state) => {
     return {
-	accessToken: state.reducerLogin.accessToken,
+	accessToken: state.reducerToken.accessToken,
 	userPending: state.reducerUser.userPending,
 	userError: state.reducerUser.userError,
 	userSuccess: state.reducerUser.userSuccess,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { logout } from './redux/actions/login'
+import { logout } from './redux/actions/logout'
 
 class Logout extends Component {
     componentWillMount() {
@@ -11,7 +11,6 @@ class Logout extends Component {
     }
     render() {
 	return (
-	    // TODO: wait for logout to finish then redirect
 	    <Redirect to='/' />
 	)
     }
@@ -19,8 +18,8 @@ class Logout extends Component {
 
 const mapStateToProps = (state) => {
     return {
-	accessToken: state.reducerLogin.accessToken,
-	refreshToken: state.reducerLogin.refreshToken
+	accessToken: state.reducerToken.accessToken,
+	refreshToken: state.reducerToken.refreshToken
     }
 }
 

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Route, BrowserRouter } from 'react-router-dom'
 import { Container } from 'react-materialize'
+import { connect } from 'react-redux'
+
 import MyNavbar from './components/MyNavbar/MyNavbar'
 import Footer from './components/Footer/Footer'
 import Home from './Home'
 import Login from './Login'
 import User from './User'
 import Logout from './Logout'
-
-import { connect } from 'react-redux'
-import { refreshToken, silentRefreshToken } from './redux/actions/refreshToken'
+import { refreshToken, silentRefreshToken } from './redux/actions/token'
 
 class Main extends Component {
     constructor(props) {
@@ -27,10 +27,12 @@ class Main extends Component {
     }
     
     tick() {
-	if(this.props.refreshToken) {
-	    this.setState({ counter: this.state.counter + 1 })
-	    if (this.state.counter > 87) { //Refresh token when it's close to expiry
-		this.props.silentRefreshToken(this.props.refreshToken)
+	let { refreshToken } = this.props
+	let { counter } = this.state
+	if(refreshToken) {
+	    this.setState({ counter: counter + 1 })
+	    if (counter > 87) { //Refresh token when it's close to expiry
+		this.props.silentRefreshToken(refreshToken)
 		this.setState({ counter: 0 })
 	    }
 	} else {
@@ -58,7 +60,7 @@ class Main extends Component {
 
 const mapStateToProps = (state) => {
     return {
-	refreshToken: state.reducerLogin.refreshToken,
+	refreshToken: state.reducerToken.refreshToken,
     }
 }
 

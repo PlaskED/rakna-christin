@@ -49,12 +49,13 @@ export function getUser(accessToken) {
 
 	callGetUserApi(accessToken)
 	    .then(function (cb) {
-		dispatch(setUserPending(false))
 		dispatch(setUser(cb.data.data))
+		dispatch(setUserPending(false))
 		dispatch(setUserSuccess(true))
 	    })
 	    .catch((err) => {
 		dispatch(setUserPending(false))
+		dispatch(setUserSuccess(false))
 		dispatch(setUserError(err))
 		dispatch(setUser(null))
 	    })

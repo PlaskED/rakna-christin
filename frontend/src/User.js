@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Row, Col, Icon } from 'react-materialize'
+import { Row, Icon } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import UserInfo from './components/UserInfo/UserInfo'
+import Notifications from './components/Notifications/Notifications'
 
 class User extends Component {
     render() {
@@ -16,9 +16,8 @@ class User extends Component {
 			<UserInfo/>
 		    </Row>
 		    <Row>
-			<Col s={6} className='center'>
-			    <h4>Notifcations<Icon>message</Icon></h4>
-			</Col>
+			<h4>Notifikationer<Icon>message</Icon></h4>
+			<Notifications/>
 		    </Row>
 		</div>
 	    )
@@ -28,7 +27,7 @@ class User extends Component {
 
 const mapStateToProps = (state) => {
     return {
-	accessToken: state.reducerLogin.accessToken
+	accessToken: state.reducerToken.accessToken
     }
 }
 

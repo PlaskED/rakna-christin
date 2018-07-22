@@ -10,16 +10,16 @@ class MyNavbar extends Component {
 	return this.props.location.pathname === path ? 'active' : ''
     }
     render() {
-	let { user } = this.props
+	let { accessToken } = this.props
 	let logo = <img src={Logo} alt='Logo'/>
 	return (
 	<Navbar brand={logo} className='teal lighten-1' right>
 	    <div>
 		<li className={this.getNavLinkClass('/')}><NavLink to='/'>
 		    <i className='material-icons left'>home</i>Home</NavLink></li>
-		{ user && <li className={this.getNavLinkClass('/user')}><NavLink to='/user'>
+		{ accessToken && <li className={this.getNavLinkClass('/user')}><NavLink to='/user'>
 		    <i className='material-icons left'>account_circle</i>User</NavLink></li> }
-		    { user && <li className={this.getNavLinkClass('/logout')}><NavLink to='/logout'>
+		    { accessToken && <li className={this.getNavLinkClass('/logout')}><NavLink to='/logout'>
 			<i className='material-icons left'>keyboard_return</i>Logout</NavLink></li> }
 	    </div>
 	</Navbar>
@@ -29,7 +29,7 @@ class MyNavbar extends Component {
 
 const mapStateToProps = (state) => {
     return {
-	user: state.reducerLogin.user,
+	accessToken: state.reducerToken.accessToken,
     }
 }
 
