@@ -8,6 +8,7 @@
     "materialize-loader": "^2.0.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-dropzone": "^4.2.13",
     "react-materialize": "^2.3.3",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",

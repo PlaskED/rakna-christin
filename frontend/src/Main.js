@@ -9,6 +9,7 @@ import Home from './Home'
 import Login from './Login'
 import User from './User'
 import Logout from './Logout'
+import Photography from './Photography'
 import { refreshToken, silentRefreshToken } from './redux/actions/token'
 
 class Main extends Component {
@@ -48,8 +49,9 @@ class Main extends Component {
 		    <Container>
 			<Route exact path='/' component={Home}/>
 			<Route path='/logga_in' component={Login}/>
-			<Route path='/notifikationer' component={User} />
-			<Route path='/logga_ut' component={Logout} />
+			<Route path='/notifikationer' component={User}/>
+			<Route path='/logga_ut' component={Logout}/>
+			<Route path='/fotografi' component={Photography}/>
 		    </Container>
 		    <Footer/>
 		</div>
