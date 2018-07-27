@@ -47,9 +47,9 @@ class Main extends Component {
 		    <MyNavbar/>
 		    <Container>
 			<Route exact path='/' component={Home}/>
-			<Route path='/login' component={Login}/>
-			<Route path='/user' component={User} />
-			<Route path='/logout' component={Logout} />
+			<Route path='/logga_in' component={Login}/>
+			<Route path='/notifikationer' component={User} />
+			<Route path='/logga_ut' component={Logout} />
 		    </Container>
 		    <Footer/>
 		</div>

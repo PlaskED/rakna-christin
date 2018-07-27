@@ -32,13 +32,13 @@ class LoginForm extends Component {
 		<div className='center'>
 		    <Row>
 			<Col offset='s3' s={6}>
-			    <h4>Enter credentials</h4>
+			    <h4>Inloggningsformulär</h4>
 			    <Divider/>
-			    <Input s={12} label='Username' 
+			    <Input s={12} label='Användarnamn' 
 				   onChange={e => this.setState({
 					   username: e.target.value
 				   })} value={username}/>
-			    <Input s={12} label='Password' type='password' 
+			    <Input s={12} label='Lösenord' type='password' 
 				   onChange={e => this.setState({
 					   password: e.target.value
 				   })} value={password}/>
@@ -47,15 +47,15 @@ class LoginForm extends Component {
 		    
 		    <Row>
 			<Button className='color2' 
-				type='submit' waves='light' icon='send'>Login</Button>
+				type='submit' waves='light' icon='send'>Logga in</Button>
 		    </Row>
 		    <Row>{ loginPending && <Loader/> }</Row>
 		    <Row>
-			{ loginPending && <p className='center'>Please wait...</p> }
-			{ loginSuccess && <p className='center'>Success.
-			    <Redirect to='/user'/></p> }
-			{ accessToken && <p className='center'>Redirecting.
-			    <Redirect to='/user'/></p> }
+			{ loginPending && <p className='center'>Loggar in dig...</p> }
+			{ loginSuccess && <p className='center'>Klart!
+			    <Redirect to='/notifikationer'/></p> }
+			{ accessToken && <p className='center'>Omdirigerar...
+			    <Redirect to='/notifikationer'/></p> }
 			{ loginError && <p className='text-error center'>
 			    {loginError.message}<Icon>error</Icon></p> }
 		    </Row>

@@ -11,7 +11,7 @@ export default () => (
 	    }
 	    links={
 		<ul>
-		    <li><NavLink to='/login'>
+		    <li><NavLink to='/logga_in'>
 			<p className='white-text text-lighten-4'>Admin Login</p>
 		    </NavLink></li>
 		</ul>
