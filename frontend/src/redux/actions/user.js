@@ -61,3 +61,13 @@ export function getUser(accessToken) {
 	    })
     }
 }
+
+export function resetUserState() {
+    return dispatch => {
+	dispatch(setUserPending(false))
+	dispatch(setUserSuccess(null))
+	dispatch(setUserError(null))
+	dispatch(setUser(null))
+    }
+}
+

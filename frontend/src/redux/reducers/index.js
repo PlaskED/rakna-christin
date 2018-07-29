@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import reducerLogin from './login'
 import reducerLogout from './logout'
@@ -10,7 +11,8 @@ import reducerToken from './token'
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['reducerToken', 'reducerUser']
+    whitelist: ['reducerUser', 'reducerToken'],
+    stateReconciler: autoMergeLevel2
 }
 
 const tokenPersistConfig = {
@@ -27,7 +29,7 @@ const userPersistConfig = {
 
 const rootReducer = combineReducers({
     reducerLogin: reducerLogin,
-    reducerLogogout: reducerLogout,
+    reducerLogout: reducerLogout,
     reducerUser: persistReducer(userPersistConfig, reducerUser),
     reducerToken: persistReducer(tokenPersistConfig, reducerToken)
 })

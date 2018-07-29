@@ -10,18 +10,18 @@ import Login from './Login'
 import User from './User'
 import Logout from './Logout'
 import Photography from './Photography'
-import { refreshToken, silentRefreshToken } from './redux/actions/token'
+import { doRefreshToken, doSilentRefreshToken } from './redux/actions/token'
 
 class Main extends Component {
     constructor(props) {
 	super(props)
-	this.state = { timer: null,  counter: 0 }
+	this.state = { timer: null, counter: 0 }
 	this.tick = this.tick.bind(this)
     }
     componentDidMount() {
-	this.props.refreshToken(this.props.refreshToken)
-	let timer = setInterval(this.tick, 10000)
-	this.setState({timer})
+	this.props.doRefreshToken(this.props.refreshToken)
+	let newTimer = setInterval(this.tick, 10000)
+	this.setState({timer: newTimer})
     }
     componentWillUnmount() {
 	clearInterval(this.state.timer)
@@ -33,7 +33,7 @@ class Main extends Component {
 	if(refreshToken) {
 	    this.setState({ counter: counter + 1 })
 	    if (counter > 87) { //Refresh token when it's close to expiry
-		this.props.silentRefreshToken(refreshToken)
+		this.props.doSilentRefreshToken(refreshToken)
 		this.setState({ counter: 0 })
 	    }
 	} else {
@@ -68,10 +68,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-	refreshToken: (token) => 
-	    dispatch(refreshToken(token)),
-	silentRefreshToken: (token) => 
-	    dispatch(silentRefreshToken(token))
+	doRefreshToken: (token) => 
+	    dispatch(doRefreshToken(token)),
+	doSilentRefreshToken: (token) => 
+	    dispatch(doSilentRefreshToken(token))
     }
 }
 

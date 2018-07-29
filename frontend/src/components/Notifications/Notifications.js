@@ -35,9 +35,7 @@ class Notifications extends Component {
 	    if (newNotifications.length !== 0) {
 		this.setState({ index: newNotifications[newNotifications.length-1].id })
 	    }
-	}).catch(err => {
-	    this.setState({error: err})
-	})
+	}).catch(err => { this.setState({error: err}) })
     }
 
     //id':self.id, 'checked':self.checked, 

@@ -5,7 +5,7 @@ class Loader extends Component {
     render() {
 	return (
 	    <div className='center'>
-		<Preloader size='big' flashing='true' />
+		<Preloader size='big' flashing={true} />
 	    </div>
 	)
     }

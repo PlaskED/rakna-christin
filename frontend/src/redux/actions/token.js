@@ -2,6 +2,7 @@ import axios from 'axios'
 import { TOKEN_REFRESH_PENDING, TOKEN_REFRESH_SUCCESS, TOKEN_REFRESH_ERROR, 
 	 SET_ACCESS_TOKEN, SET_REFRESH_TOKEN } from './types'
 import { resetLoginState } from './login'
+import { resetUserState } from './user'
 
 function setTokenRefreshPending(tokenRefreshPending) {
     return {
@@ -54,7 +55,7 @@ function callRefreshTokenApi(refreshToken, cb) {
     }, 3000)
 }
 
-export function silentRefreshToken(refreshToken) {
+export function doSilentRefreshToken(refreshToken) {
     return dispatch => {
 	callRefreshTokenApi(refreshToken, cb => {  
 	    if (cb.status === 200) {
@@ -64,7 +65,7 @@ export function silentRefreshToken(refreshToken) {
     }
 }
 
-export function refreshToken(refreshToken) {
+export function doRefreshToken(refreshToken) {
     return dispatch => {
 	dispatch(setTokenRefreshPending(true))
 	dispatch(setTokenRefreshSuccess(false))
@@ -76,7 +77,9 @@ export function refreshToken(refreshToken) {
 		dispatch(setAccessToken(cb.data.data.accessToken))
 		dispatch(setTokenRefreshSuccess(true))
 	    } else {
+		dispatch(resetUserState())
 		dispatch(resetLoginState())
+		dispatch(setAccessToken(null))
 		dispatch(setTokenRefreshError(cb))
 	    }
 	})
