@@ -9,4 +9,4 @@ class Image(db.Model):
          return '<Image %r>' % self.id
 
     def to_json(self):
-        return {'id':self.id, 'name':self.name}
+        return {'id':self.id, 'name':self.name, 'path':self.path}

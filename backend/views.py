@@ -1,14 +1,14 @@
 from backend import app, dbapi, helpers, security, jwt
 from flask import render_template, request
 from flask_jwt_extended import (create_access_token, create_refresh_token,
-                        jwt_required, jwt_refresh_token_required,
-                        get_jwt_identity, get_raw_jwt)
+                                jwt_required, jwt_refresh_token_required,
+                                get_jwt_identity, get_raw_jwt)
 from flask_uploads import (patch_request_class, configure_uploads,
                            UploadSet, IMAGES, UploadNotAllowed)
 from flask_cors import CORS, cross_origin
 CORS(app)
-patch_request_class(app) 
-photos = UploadSet('photos', IMAGES)
+patch_request_class(app, app.config['MAX_CONTENT_LENGTH']) 
+photos = UploadSet(app.config['IMAGES_DEST'], IMAGES)
 configure_uploads(app, (photos))
 
 @jwt.token_in_blacklist_loader
@@ -118,21 +118,26 @@ def getImages(index):
     res['data'] = dbapi.getImages(index)
     return helpers.handleResponse(res)
 
-@app.route('/api/image/upload', methods=['GET', 'POST'])
+@app.route('/api/image/upload', methods=['POST'])
 @jwt_required
 @cross_origin(headers=['Content-Type'])
-def uploadImage():
-    if request.method == 'POST' and 'photo' in request.files:
-        try:
-            _filename = photos.save(request.files['photo'])
-        except UploadNotAllowed:
-            err = helpers.generateError('Upload not allowed', 400)
-            return helpers.handleResponse(err)
-        else:
-            path = photos.path(_filename)
-            print("Filename: {}, Path: {}".format( _filename, path))
-            res = dbapi.createImage(_filename, path)
-            return helpers.handleResponse(res)
+def uploadImages():
+    if request.method == 'POST':
+        res = {'data':{'uploaded':[], 'failed':[]}}
+        for filename in request.files:
+            try:
+                new_file = request.files[filename]
+                upload = photos.save(new_file)
+            except UploadNotAllowed:
+                res['data']['failed'].append(filename)
+            else:
+                path = "".format(
+                    app.config['UPLOADS_DEFAULT_DEST'], app.config['IMAGES_DEST'], new_file.name)
+                dbentry = dbapi.createImage(filename, path)
+                if 'data' in dbentry:
+                    res['data']['uploaded'].append(dbentry)
+                print("Filename: {}, Path: {}".format(new_file.name, path))
+        return helpers.handleResponse(res)
     err = helpers.generateError('Bad request', 400)
     return helpers.handleResponse(err)
 
