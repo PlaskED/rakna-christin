@@ -5,10 +5,13 @@ import { connect } from 'react-redux'
 
 import MyNavbar from './components/MyNavbar/MyNavbar'
 import Footer from './components/Footer/Footer'
+import Info from './Info'
 import Home from './Home'
 import Login from './Login'
 import User from './User'
 import Logout from './Logout'
+import Prices from './Prices'
+import Contact from './Contact'
 import Photography from './Photography'
 import { doRefreshToken, doSilentRefreshToken } from './redux/actions/token'
 
@@ -52,6 +55,9 @@ class Main extends Component {
 			<Route path='/notifikationer' component={User}/>
 			<Route path='/logga_ut' component={Logout}/>
 			<Route path='/fotografi' component={Photography}/>
+			<Route path='/info' component={Info}/>
+			<Route path='/priser' component={Prices}/>
+			<Route path='/kontakt' component={Contact}/>
 		    </Container>
 		    <Footer/>
 		</div>

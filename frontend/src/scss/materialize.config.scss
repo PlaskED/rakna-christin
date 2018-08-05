@@ -13,9 +13,19 @@ $error-color: color("red", "base") !default;
 
 $link-color: color("light-blue", "darken-1") !default;
 
+.side-nav li.active {
+@extend .grey;
+@extend .lighten-1;
+}
+
 nav ul li.active {
 @extend .grey;
 @extend .darken-3;
+}
+
+
+ul.circle {
+list-style-type: circle;
 }
 
 button {
@@ -66,7 +76,7 @@ i.voters {
 
 .bg-color {
 @extend .grey;
-@extend .darken-3;
+@extend .lighten-3;
 }
 
 .text-error {
@@ -78,6 +88,10 @@ i.voters {
 font-weight: bold;
 @extend .light-blue-text;
 @extend .text-lighten-1;
+}
+
+.bold {
+font-weight: bold;
 }
 
 

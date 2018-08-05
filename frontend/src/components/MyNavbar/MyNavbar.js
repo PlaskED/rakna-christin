@@ -1,20 +1,26 @@
 import React, { Component} from 'react'
-import { Navbar } from 'react-materialize'
+import { Navbar, Col } from 'react-materialize'
 import { NavLink, withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
+// eslint-disable-next-line 
+import M from 'materialize-css'
 
 class MyNavbar extends Component {
     getNavLinkClass = (path) => {
 	return this.props.location.pathname === path ? 'active' : ''
     }
+
     render() {
 	let { accessToken } = this.props
-	let logo = <img src={window.location.origin + 
-			     '/img/logga_raknamedchristin.svg'} 
-			alt="Logo"
-	width="220px" />
+	let logo = 
+	    <Col offset='s2'>
+		<img className='responsive-image'
+		     src={window.location.origin+'/img/logga_raknamedchristin.svg'}
+		     alt='Logo'
+		     width='220px' />
+	    </Col>
 	return (
-	<Navbar brand={logo} right>
+	<Navbar brand={logo} right >
 	    <div>
 		<li className={this.getNavLinkClass('/')}><NavLink to='/'>
 		    <i className='material-icons icon-main left'>home</i>Startsida</NavLink></li>
@@ -33,6 +39,9 @@ class MyNavbar extends Component {
 			<i className='material-icons icon-main left'>keyboard_return</i>Logga ut</NavLink>
 		    </li> }
 	    </div>
+	    <NavLink className="button-collapse" to='#' data-activates="nav-mobile">
+		<i className="material-icons">view_headline</i>
+	    </NavLink>
 	</Navbar>
 	)
     }
