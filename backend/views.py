@@ -131,12 +131,11 @@ def uploadImages():
             except UploadNotAllowed:
                 res['data']['failed'].append(filename)
             else:
-                path = "".format(
+                path = "{}{}/{}".format(
                     app.config['UPLOADS_DEFAULT_DEST'], app.config['IMAGES_DEST'], new_file.name)
                 dbentry = dbapi.createImage(filename, path)
                 if 'data' in dbentry:
                     res['data']['uploaded'].append(dbentry)
-                print("Filename: {}, Path: {}".format(new_file.name, path))
         return helpers.handleResponse(res)
     err = helpers.generateError('Bad request', 400)
     return helpers.handleResponse(err)
