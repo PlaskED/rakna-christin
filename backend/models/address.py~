@@ -1,7 +1,0 @@
-from backend.dbapp import db as db
-
-class Address(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(64), nullable=False)
-    road = db.Column(db.String(64))
-    number = db.Column(db.Integer)

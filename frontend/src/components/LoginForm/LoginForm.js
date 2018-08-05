@@ -46,8 +46,7 @@ class LoginForm extends Component {
 		    </Row>
 		    
 		    <Row>
-			<Button className='color2' 
-				type='submit' waves='light' icon='send'>Logga in</Button>
+			<Button type='submit' waves='light' icon='send'>Logga in</Button>
 		    </Row>
 		    <Row>{ loginPending && <Loader/> }</Row>
 		    <Row>

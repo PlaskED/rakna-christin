@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from backend import models, dbapi
 import sys
 

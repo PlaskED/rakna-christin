@@ -46,7 +46,7 @@ class Main extends Component {
 	    <BrowserRouter>
 		<div>
 		    <MyNavbar/>
-		    <Container>
+		    <Container className="bg-color">
 			<Route exact path='/' component={Home}/>
 			<Route path='/logga_in' component={Login}/>
 			<Route path='/notifikationer' component={User}/>

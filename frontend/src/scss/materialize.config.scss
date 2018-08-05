@@ -1,74 +1,83 @@
-$primary-color: color("teal", "lighten-1") !default;
+$primary-color: color("grey", "darken-2") !default;
 $primary-color-light: false !default;
 $primary-color-dark: false !default;
 @if not $primary-color-light {
-    $primary-color-light: lighten($primary-color, 15%);
+$primary-color-light: lighten($primary-color, 15%);
 }
 @if not $primary-color-dark {
-    $primary-color-dark: darken($primary-color, 15%);
+$primary-color-dark: darken($primary-color, 15%);
 }
-$secondary-color: color("light-blue", "lighten-1") !default;
+$secondary-color: color("grey", "lighten-1") !default;
 $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
 
 $link-color: color("light-blue", "darken-1") !default;
 
-blockquote {
-    @extend .color-bg;
+nav ul li.active {
+@extend .grey;
+@extend .darken-3;
 }
 
+button {
+@extend .green;
+@extend .accent-3;
+}
+
+blockquote {
+@extend .bg-color;
+}
 i.upvote {
-    @extend .green-text;
+@extend .green-text;
 }
 
 i.downvote {
-    @extend .red-text;
+@extend .red-text;
 }
 
 i.voters {
-        @extend .light-blue-text;
-	@extend .text-lighten-1;
+@extend .light-blue-text;
+@extend .text-lighten-1;	
 }
 
-.color1 {
-    @extend .teal;
-    @extend .lighten-1;
+.icon-main {
+@extend .green-text;
+@extend .text-accent-3;
 }
 
 .color1-text {
-    @extend .teal-text;
-    @extend .text-lighten-1;
+@extend .teal-text;
+@extend .text-lighten-1;
 }
 
 .color2 {
-    @extend .light-blue;
-    @extend .lighten-1;
+@extend .light-blue;
+@extend .lighten-1;
 }
 
 .color2-text {
-    @extend .light-blue-text;
-    @extend .text-lighten-1;
+@extend .light-blue-text;
+@extend .text-lighten-1;
 }
 
 .color3 {
-    @extend .red;
-    @extend .lighten-1;
+@extend .red;
+@extend .lighten-1;
 }
 
-.color-bg {
-    @extend .grey;
-    @extend .lighten-5;
+.bg-color {
+@extend .grey;
+@extend .darken-3;
 }
 
 .text-error {
-    @extend .red-text;
-    @extend .text-darken-2;
+@extend .red-text;
+@extend .text-darken-2;
 }
 
 .username {
-    font-weight: bold;
-    @extend .light-blue-text;
-    @extend .text-lighten-1;
+font-weight: bold;
+@extend .light-blue-text;
+@extend .text-lighten-1;
 }
 
 
