@@ -129,10 +129,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-	//login: (username, password) => dispatch(login(username, password))
-    }
-}
-
 export default connect(mapStateToProps, null)(DropzoneComponent)

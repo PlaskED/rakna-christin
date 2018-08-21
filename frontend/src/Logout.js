@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { logout } from './redux/actions/logout'
 
 class Logout extends Component {
-    componentWillMount() {
+    componentDidMount() {
 	let { accessToken, refreshToken } = this.props
 	if (accessToken) 
 	    this.props.logout(accessToken, refreshToken)

@@ -132,8 +132,8 @@ def uploadImages():
                 res['data']['failed'].append(filename)
             else:
                 path = "{}{}/{}".format(
-                    app.config['UPLOADS_DEFAULT_DEST'], app.config['IMAGES_DEST'], new_file.name)
-                dbentry = dbapi.createImage(filename, path)
+                    app.config['UPLOADS_DEFAULT_DEST'], app.config['IMAGES_DEST'], upload)
+                dbentry = dbapi.createImage(upload, path)
                 if 'data' in dbentry:
                     res['data']['uploaded'].append(dbentry)
         return helpers.handleResponse(res)
