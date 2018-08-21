@@ -23,7 +23,6 @@ nav ul li.active {
 @extend .darken-3;
 }
 
-
 ul.circle {
 list-style-type: circle;
 }
@@ -50,8 +49,8 @@ i.voters {
 }
 
 .icon-main {
-@extend .green-text;
-@extend .text-accent-3;
+@extend .blue-text;
+@extend .text-lighten-1;
 }
 
 .color1-text {
