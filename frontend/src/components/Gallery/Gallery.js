@@ -61,7 +61,7 @@ class Gallery extends Component {
 		    <div className="col s12 center" id="gallery"> 
 			{ photos.map(it => (
 			    <div className="photo" key={it.id}>
-				<img className='responsive-img col s3'
+				<img className='responsive-img col s4'
 				     src={window.location.origin+'/uploads/photos/'.concat(it.name)}
 				     alt={it.id}/>
 			    </div>
