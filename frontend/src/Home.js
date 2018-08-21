@@ -1,11 +1,41 @@
 import React, { Component } from "react";
-import { Row, Col, CardPanel } from 'react-materialize'
+import { Row, Col, CardPanel, Carousel, Button } from 'react-materialize'
+// eslint-disable-next-line 
+import M from 'materialize-css'
+let $ = require('jquery');
 
 class Home extends Component {
+    componentDidMount() {
+	var carousel_interval = 5000
+	setInterval(function() {
+	    $('.carousel').carousel('next');
+	}, carousel_interval)
+
+    }
+
     render() {
 	return (
 	    <div className="center">
 		<Row>
+		    <Carousel options={{ fullWidth: true }}>
+			<div className='red'>
+			    <h2>First Panel</h2>
+			    <p className='white-text'>This is your first panel</p>
+			    <Button type='submit' waves='light'>Mer info</Button>
+			</div>
+			<div className='amber'>
+			    <h2>Second Panel</h2>
+			    <p className='white-text'>This is your second panel</p>
+			</div>
+			<div className='green'>
+			    <h2>Third Panel</h2>
+			    <p className='white-text'>This is your third panel</p>
+			</div>
+			<div className='blue'>
+			    <h2>Fourth Panel</h2>
+			    <p className='white-text'>This is your fourth panel</p>
+			</div>
+		    </Carousel>
 		</Row>
 		<Row>
 		    <Col s={4}>
