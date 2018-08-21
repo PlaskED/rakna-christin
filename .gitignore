@@ -1,3 +1,6 @@
+uploads/
+install.sh
+pip-selfcheck.json
 bin/
 include/
 instance/
