@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Row, Col, CardPanel } from 'react-materialize'
+import { Row } from 'react-materialize'
 import axios from 'axios'
+import Gallery from 'react-grid-gallery'
 
 import Loader from '../Loader/Loader'
 
-class Gallery extends Component {
+class MyGallery extends Component {
     constructor(props) {
 	super(props)
 	this.state = {
@@ -12,12 +13,29 @@ class Gallery extends Component {
 	    error: null,
 	    success: false,
 	    photos: [],
-	    index: 0
+	    index: 0,
+	    height: window.innerHeight
 	}
+	this.handleScroll = this.handleScroll.bind(this);
+    }
+
+    handleScroll() {
+        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight
+        const body = document.body
+        const html = document.documentElement
+        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
+        const windowBottom = windowHeight + window.pageYOffset
+        if (windowBottom >= docHeight) {
+	    this.getPhotos()
+        }
     }
 
     componentDidMount() {
 	this.getPhotos()
+	window.addEventListener("scroll", this.handleScroll);
+    }
+    componentWillUnmount() {
+	window.removeEventListener("scroll", this.handleScroll);
     }
 
     getPhotos() {
@@ -43,6 +61,12 @@ class Gallery extends Component {
 
     render() {
 	let { pending, success, error, photos } = this.state
+	const path = window.location.origin + '/uploads/photos/'
+	const PHOTO_SET = photos.map(it => ({
+	    src: path.concat(it.name),
+	    thumbnail: path.concat(it.name),
+	    
+	}))
 
 	if (pending) {
 	    return (
@@ -58,20 +82,11 @@ class Gallery extends Component {
 	if (success) {
 	    return (
 		<Row> 
-		    <div className="col s12 center" id="gallery"> 
-			{ photos.map(it => (
-			    <div className="photo" key={it.id}>
-				<img className='responsive-img col s3'
-				     src={window.location.origin+'/uploads/photos/'.concat(it.name)}
-				     alt={it.id}/>
-			    </div>
-			))	
-			} 
-		    </div> 
+		    <Gallery images={PHOTO_SET} />
 		</Row>
 	    )
 	} else { return null }
     }
 }
 
-export default Gallery
+export default MyGallery

@@ -32,6 +32,7 @@
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.2",
     "react-dropzone": "^4.3.0",
+    "react-grid-gallery": "^0.5.1",
     "react-materialize": "^2.4.3",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
