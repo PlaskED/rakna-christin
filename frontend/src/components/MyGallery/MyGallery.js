@@ -13,32 +13,33 @@ class MyGallery extends Component {
 	    error: null,
 	    success: false,
 	    photos: [],
-	    index: 0,
-	    height: window.innerHeight
+	    index: 0
 	}
-	this.handleScroll = this.handleScroll.bind(this);
-    }
-
-    handleScroll() {
-        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight
-        const body = document.body
-        const html = document.documentElement
-        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
-        const windowBottom = windowHeight + window.pageYOffset
-        if (windowBottom >= docHeight) {
-	    this.getPhotos()
-        }
     }
 
     componentDidMount() {
 	this.getPhotos()
-	window.addEventListener("scroll", this.handleScroll);
+	document.addEventListener("scroll", this.trackScrolling)
     }
     componentWillUnmount() {
-	window.removeEventListener("scroll", this.handleScroll);
+	document.removeEventListener("scroll", this.trackScrolling)
     }
 
+    isBottom(elem) {
+	if (!elem)
+	    return null
+	return elem.getBoundingClientRect().bottom <= window.innerHeight
+    }
+
+    trackScrolling = () => {
+	const wrappedElement = document.getElementById('gallery-scrollable')
+	if (this.isBottom(wrappedElement)) {
+	    this.getPhotos()
+	}
+    };
+
     getPhotos() {
+	document.removeEventListener('scroll', this.trackScrolling)
 	this.setState({pending: true})
 	axios({
 	    method:'get',
@@ -48,44 +49,39 @@ class MyGallery extends Component {
 	    }
 	}).then(response => {
 	    const newPhotos = response.data.data
+	    const path = window.location.origin + '/uploads/photos/'
 	    this.setState({ 
-		photos: this.state.photos.concat(newPhotos),
+		photos: this.state.photos.concat(newPhotos.map(it => ({
+		    src: path.concat(it.name),
+		    thumbnail: path.concat(it.name)  
+		}))),
 		pending: false,
-		success: true 
+		success: true,
 	    })
 	    if (newPhotos.length !== 0) {
 		this.setState({ index: newPhotos[newPhotos.length-1].id })
 	    }
 	}).catch(err => { this.setState({error: err}) })
+	document.addEventListener('scroll', this.trackScrolling)
     }
 
     render() {
 	let { pending, success, error, photos } = this.state
-	const path = window.location.origin + '/uploads/photos/'
-	const PHOTO_SET = photos.map(it => ({
-	    src: path.concat(it.name),
-	    thumbnail: path.concat(it.name),
-	    
-	}))
 
-	if (pending) {
-	    return (
-		<Row><Loader/></Row>
-	    )
-	}
 	if (error) {
 	    return (
 		<p className='text-error center'>{error.message}</p>
 	    )
-	}
-
-	if (success) {
+	} else {
 	    return (
-		<Row> 
-		    <Gallery images={PHOTO_SET} />
-		</Row>
+		<div>
+		    <Row id='gallery-scrollable'> 
+			<Gallery images={photos}/>
+		    </Row>
+		    { pending && <Row><Loader/></Row> }
+		</div>
 	    )
-	} else { return null }
+	}
     }
 }
 

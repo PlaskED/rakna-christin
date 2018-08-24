@@ -1,5 +1,4 @@
 from backend import models, helpers, security
-from sqlalchemy import desc
 
 def blacklistToken(_jti):
     revoked_token = models.RevokedToken(jti=_jti)
@@ -43,7 +42,7 @@ def changeEmail(obj):
 def getNotifications(index):
     notifications = models.Notification.query\
                     .filter(models.Notification.id > index)\
-                    .order_by(desc(models.Notification.id)).limit(5)
+                    .order_by(models.Notification.id).limit(5)
     return [n.to_json() for n in notifications]
 
 def getNotification(nid):
@@ -79,7 +78,7 @@ def deleteNotification(nid):
 def getImages(index):
     images = models.Image.query\
                     .filter(models.Image.id > index)\
-                    .order_by(desc(models.Image.id)).limit(10)
+                    .order_by(models.Image.id).limit(10)
     return [i.to_json() for i in images]
 
 def getImage(iid):
