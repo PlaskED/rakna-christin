@@ -60,9 +60,12 @@ class MyGallery extends Component {
 	    })
 	    if (newPhotos.length !== 0) {
 		this.setState({ index: newPhotos[newPhotos.length-1].id })
+		document.addEventListener('scroll', this.trackScrolling)
 	    }
-	}).catch(err => { this.setState({error: err}) })
-	document.addEventListener('scroll', this.trackScrolling)
+	}).catch(err => { 
+	    this.setState({error: err})
+	    document.addEventListener('scroll', this.trackScrolling)
+	})
     }
 
     render() {
@@ -76,7 +79,7 @@ class MyGallery extends Component {
 	    return (
 		<div>
 		    <Row id='gallery-scrollable'> 
-			<Gallery images={photos}/>
+			<Gallery images={photos} imageCountSeparator=' av ' />
 		    </Row>
 		    { pending && <Row><Loader/></Row> }
 		</div>

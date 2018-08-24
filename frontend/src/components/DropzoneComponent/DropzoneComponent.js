@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'react-materialize'
+import { Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import Dropzone from 'react-dropzone'
@@ -29,16 +29,10 @@ class DropzoneComponent extends Component {
 		'content-type': 'multipart/form-data'
 	    }
 	}).then(response => {
-	    //const newNotifications = response.data.data
-	    //this.setState({ 
-	    //notifications: this.state.notifications.concat(newNotifications),
 	    this.setState({
 		pending: false,
 		success: true 
 	    })
-	    //if (newNotifications.length !== 0) {
-	    //this.setState({ index: newNotifications[newNotifications.length-1].id })
-	    //}
 	}).catch(err => { this.setState({error: err}) })
     }
 
@@ -68,55 +62,54 @@ class DropzoneComponent extends Component {
 	let { pending, success, error, acceptedFiles, rejectedFiles } = this.state;
 
 	return (
-	    <div className="dropzone">
+	    <div className="center">
 		{ accessToken && 
-		  <Row>
-		      <Col s={6}>
+		  <div className="dropzone">
+		      <Row>
 			  <Dropzone
 			      accept="image/jpeg, image/png, image/jpg"
 			      multiplie
 			      onDrop={(files) => 
 				  { this.onDrop(files) }}
 			  >
-			      <p>Drop files here to upload</p>
+			      <p>Släpp filer här för att ladda upp</p>
 			  </Dropzone>
-		      </Col>
-		      <Col s={6}>
+		      </Row>
+		      <Row className="left">
 			  { pending && 
 			    <div>
-				<p>Uploading..</p>
+				<p>Laddar upp..</p>
 				<Loader/>
 			    </div>
 			  }
 			  { success &&
 			    <div>
-				<p>Success!</p>
+				<p>Klart!</p>
 			    </div>
 			  }
 			  { error &&
 			    <div>
-				<p>error.msg</p>
+				<p className='text-error center'>{error.message}</p>
 			    </div>
 			  }
 			  { (acceptedFiles.length > 0) &&
 			    <div>
 				<p>Laddar upp filer:</p>
 				acceptedFiles.map(it => (
-				    <p>{it}</p>
+				<p>{it}</p>
 				))
 			    </div>
 			  }
 			  { (rejectedFiles.length > 0) &&
 			    <div>
 				<p>Nekade filer:</p>
-				acceptedFiles.map(it => (
-				    <p>{it}</p>
+				rejectedFiles.map(it => (
+				<p>{it}</p>
 				))
 			    </div>
 			  }
-			  
-		      </Col>
-		  </Row>
+		      </Row>
+		  </div>
 		}
 	    </div>
 	)
