@@ -53,7 +53,9 @@ class MyGallery extends Component {
 	    this.setState({ 
 		photos: this.state.photos.concat(newPhotos.map(it => ({
 		    src: path.concat(it.name),
-		    thumbnail: path.concat(it.name)  
+		    thumbnail: path.concat(it.name),
+		    minHeight: "1px",
+                    width: "100%",
 		}))),
 		pending: false,
 		success: true,
