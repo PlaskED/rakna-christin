@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Row } from 'react-materialize'
+import { Row, Button } from 'react-materialize'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import Gallery from 'react-grid-gallery'
 
@@ -13,8 +14,10 @@ class MyGallery extends Component {
 	    error: null,
 	    success: false,
 	    photos: [],
-	    index: 0
+	    index: 0,
+	    selection: null,
 	}
+	this.onSelectImage = this.onSelectImage.bind(this);
     }
 
     componentDidMount() {
@@ -36,7 +39,22 @@ class MyGallery extends Component {
 	if (this.isBottom(wrappedElement)) {
 	    this.getPhotos()
 	}
-    };
+    }
+
+    onSelectImage (index, image) {
+        var images = this.state.photos.slice()
+        var img = images[index]
+	var found = false
+        if(img.hasOwnProperty("isSelected")) {
+            img.isSelected = !img.isSelected
+	    found = images.find(it => it.isSelected === true) ? true : false
+	    this.setState({ photos: images, selection: found})
+        } else {
+            img.isSelected = true
+	    found = true
+	}
+	this.setState({ photos: images, selection: found})
+    }
 
     getPhotos() {
 	document.removeEventListener('scroll', this.trackScrolling)
@@ -71,7 +89,8 @@ class MyGallery extends Component {
     }
 
     render() {
-	let { pending, success, error, photos } = this.state
+	let { accessToken } = this.props
+	let { pending, success, error, photos, selection } = this.state
 
 	if (error) {
 	    return (
@@ -81,8 +100,15 @@ class MyGallery extends Component {
 	    return (
 		<div>
 		    <Row id='gallery-scrollable'> 
-			<Gallery images={photos} imageCountSeparator=' av ' />
+			<Gallery images={photos} 
+				 imageCountSeparator=' av '
+				 onSelectImage={this.onSelectImage}
+			/>
 		    </Row>
+		    { accessToken && selection &&
+		      <Row>
+			  <Button type='submit' waves='light' icon='delete_forever'>Ta bort markerade</Button>
+		      </Row> }
 		    { pending && <Row><Loader/></Row> }
 		</div>
 	    )
@@ -90,4 +116,10 @@ class MyGallery extends Component {
     }
 }
 
-export default MyGallery
+const mapStateToProps = (state) => {
+    return {
+	accessToken: state.reducerToken.accessToken
+    }
+}
+
+export default connect(mapStateToProps, null)(MyGallery)
