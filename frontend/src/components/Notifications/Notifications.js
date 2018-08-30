@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 
 import Loader from '../Loader/Loader'
+import Error from '../Error/Error'
 
 class Notifications extends Component {
     constructor(props) {
@@ -47,14 +48,10 @@ class Notifications extends Component {
     render() {
 	let { notifications, pending, error, success } = this.state
 	if (pending) {
-	    return (
-		<Row><Loader/></Row>
-	    )
+	    return <Row><Loader/></Row>
 	}
 	if (error) {
-	    return (
-		<p className='text-error center'>{error.message}</p>
-	    )
+	    return <Error error={error}/>
 	}
 	if (success) {
 	    return (

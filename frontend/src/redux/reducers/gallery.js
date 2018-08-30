@@ -2,8 +2,7 @@ import { GALLERY_REMOVE_PHOTOS, GALLERY_REMOVE_PENDING,
 	 GALLERY_REMOVE_SUCCESS, GALLERY_REMOVE_ERROR, 
 	 GALLERY_ADD_PHOTOS, GALLERY_ADD_PENDING,
 	 GALLERY_ADD_SUCCESS, GALLERY_ADD_ERROR, 
-	 GALLERY_SET_PHOTOS, GALLERY_SET_SELECTION, 
-	 GALLERY_SET_SCROLLABLE } from '../actions/types'
+	 GALLERY_SET_PHOTOS, GALLERY_SET_SCROLLABLE } from '../actions/types'
 
 export default function reducerGallery(state = {
     galleryAddPending: false,
@@ -13,7 +12,6 @@ export default function reducerGallery(state = {
     galleryRemoveSuccess: false,
     galleryRemoveError: null,
     galleryPhotos: [],
-    gallerySelection: [],
     galleryScrollable: true,
 }, action) {
     switch (action.type) {
@@ -60,11 +58,6 @@ export default function reducerGallery(state = {
 			return element === it.alt
 		    })
 		)
-	    }
-	case GALLERY_SET_SELECTION:
-	    return {
-		...state,
-		gallerySelection: action.gallerySelection
 	    }
 	case GALLERY_SET_PHOTOS:
 	    return {

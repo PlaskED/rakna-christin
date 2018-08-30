@@ -3,8 +3,7 @@ import { GALLERY_ADD_PENDING, GALLERY_ADD_SUCCESS,
 	 GALLERY_ADD_ERROR, GALLERY_REMOVE_PENDING,
 	 GALLERY_REMOVE_SUCCESS, GALLERY_REMOVE_ERROR,
 	 GALLERY_ADD_PHOTOS, GALLERY_REMOVE_PHOTOS,
-	 GALLERY_SET_PHOTOS, GALLERY_SET_SELECTION,
-	 GALLERY_SET_SCROLLABLE } from './types'
+	 GALLERY_SET_PHOTOS, GALLERY_SET_SCROLLABLE } from './types'
 
 function setGalleryAddPending(galleryAddPending) {
     return {
@@ -69,13 +68,6 @@ function setGalleryPhotos(galleryPhotos) {
     }
 }
 
-function setGallerySelection(gallerySelection) {
-    return {
-	type: GALLERY_SET_SELECTION,
-	gallerySelection
-    }
-}
-
 function setGalleryScrollable(galleryScrollable) {
     return {
 	type: GALLERY_SET_SCROLLABLE,
@@ -127,7 +119,6 @@ export function doGalleryRemove(accessToken, imagesIdx, photos) {
 	    if (cb.status === 204) {
 		dispatch(setGalleryRemoveSuccess(true))
 		dispatch(removeGalleryPhotos(imagesIdx))
-		dispatch(setGallerySelection([]))
 	    } else {
 		dispatch(setGalleryRemoveError(cb))
 	    }
@@ -162,12 +153,6 @@ export function doGalleryAdd(accessToken, lastIndex, path) {
 		dispatch(setGalleryScrollable(true))
 	    }
 	})
-    }
-}
-
-export function doSetGallerySelection(selection) {
-    return dispatch => {
-	dispatch(setGallerySelection(selection))
     }
 }
 

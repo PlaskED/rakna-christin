@@ -16,6 +16,7 @@ class Home extends Component {
     render() {
 	return (
 	    <div className="center">
+		<Row/>
 		<Row>
 		    <Carousel options={{ fullWidth: true }}>
 			<div className='red'>

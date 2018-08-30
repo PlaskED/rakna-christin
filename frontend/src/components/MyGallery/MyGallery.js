@@ -5,15 +5,16 @@ import Gallery from 'react-grid-gallery'
 
 import { doGalleryRemove, 
 	 doGalleryAdd,
-	 doSetGalleryPhotos, 
-	 doSetGallerySelection } from '../../redux/actions/gallery'
+	 doSetGalleryPhotos } from '../../redux/actions/gallery'
 import Loader from '../Loader/Loader'
+import Error from '../Error/Error'
 
 class MyGallery extends Component {
     constructor(props) {
 	super(props)
 	this.onSelectImage = this.onSelectImage.bind(this)
 	this.onDeleteImages = this.onDeleteImages.bind(this)
+	this.getSelectedImages = this.getSelectedImages.bind(this);
     }
 
     componentDidMount() {
@@ -39,26 +40,26 @@ class MyGallery extends Component {
 
     onSelectImage(index, image) {
         var images = this.props.galleryPhotos.slice()
-	var selection = this.props.gallerySelection.slice()
         var img = images[index]
-	var newSelection = []
-        if(img.hasOwnProperty("isSelected")) {
+        if(img.hasOwnProperty("isSelected"))
             img.isSelected = !img.isSelected
-	    newSelection = selection.filter(it => it !== img.alt)
-        } else {
+        else
             img.isSelected = true
-	    newSelection = selection.concat(img.alt)
-	}
 	this.props.doSetGalleryPhotos(images)
-	this.props.doSetGallerySelection(newSelection)
+    }
+
+    getSelectedImages () {
+	return this.props.galleryPhotos
+		   .filter(img => img.isSelected)
+		   .map(img => img.alt)
     }
 
     onDeleteImages() {
 	let { accessToken, galleryRemovePending,
-	      galleryPhotos, gallerySelection } = this.props
+	      galleryPhotos } = this.props
 	if (!galleryRemovePending) {
 	    this.props.doGalleryRemove(accessToken,
-				       gallerySelection, galleryPhotos)
+				       this.getSelectedImages(), galleryPhotos)
 	}
     }
 
@@ -73,14 +74,15 @@ class MyGallery extends Component {
 
     render() {
 	let { accessToken, galleryRemovePending, galleryRemoveError, 
-	      galleryAddPending, galleryAddError, galleryPhotos,
-	      gallerySelection } = this.props
-	var displayDelete = accessToken && gallerySelection.length > 0
+	      galleryAddPending, galleryAddError, galleryPhotos } = this.props
+	var selection = this.getSelectedImages()
+	var displayDelete = accessToken && selection.length > 0
 	var allowSelection = accessToken != null
 
 	return (
 	    <div>
-		<Row id='gallery-scrollable'> 
+		<Row id='gallery-scrollable'>
+		    <div>Selected images: {selection}</div>
 		    <Gallery images={galleryPhotos}
 			     imageCountSeparator=' av '
 			     enableImageSelection={allowSelection}
@@ -90,16 +92,17 @@ class MyGallery extends Component {
 		</Row>
 		{ displayDelete && 
 		  <Row>
-		      <Button type='submit' waves='light' icon='delete_forever'
+		      <Button type='submit' waves='light'
+			      icon='delete_forever' disabled={galleryRemovePending}
 			      onClick={(e) => {
 				      if (window.confirm('Vill du ta bort markerade bilder?')) this.onDeleteImages(e) } 
 			      }>
 			  Ta bort markerade</Button>
 		  </Row> }
-		    { galleryAddPending && <Row><Loader/></Row> }
-		    { galleryAddError && <p className='text-error center'>{galleryAddError.message}</p> }
-		    { galleryRemovePending && <Row><p>Tar bort bilder, lämna inte sidan..</p><Loader/></Row>}
-		    { galleryRemoveError && <p className='text-error center'>{galleryRemoveError.message}</p> }
+		{ galleryAddPending && <Row><Loader/></Row> }
+		{ galleryAddError && <Error error={galleryAddError}/> }
+		{ galleryRemovePending && <Row><p>Tar bort bilder, lämna inte sidan..</p><Loader/></Row>}
+		{ galleryRemoveError && <Error error={galleryRemoveError}/> }
 	    </div>
 	)
     }
@@ -113,7 +116,6 @@ const mapStateToProps = (state) => {
 	galleryAddPending: state.reducerGallery.galleryAddPending,
 	galleryAddError: state.reducerGallery.galleryAddError,
 	galleryPhotos: state.reducerGallery.galleryPhotos,
-	gallerySelection: state.reducerGallery.gallerySelection,
 	galleryScrollable: state.reducerGallery.galleryScrollable,
     }
 }
@@ -125,9 +127,7 @@ const mapDispatchToProps = (dispatch) => {
 	doGalleryAdd: (token, lastIndex, path) =>
 	    dispatch(doGalleryAdd(token, lastIndex, path)),
 	doSetGalleryPhotos: (photos) =>
-	    dispatch(doSetGalleryPhotos(photos)),
-	doSetGallerySelection: (selection) =>
-	    dispatch(doSetGallerySelection(selection))
+	    dispatch(doSetGalleryPhotos(photos))
     }
 }
 

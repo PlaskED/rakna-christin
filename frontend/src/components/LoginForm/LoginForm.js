@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Input, Row, Col, Button, Divider, Icon } from 'react-materialize'
+import { Input, Row, Col, Button, Divider } from 'react-materialize'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { login } from '../../redux/actions/login'
 import Loader from '../Loader/Loader'
+import Error from '../Error/Error'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -55,8 +56,7 @@ class LoginForm extends Component {
 			    <Redirect to='/notifikationer'/></p> }
 			{ accessToken && <p className='center'>Omdirigerar...
 			    <Redirect to='/notifikationer'/></p> }
-			{ loginError && <p className='text-error center'>
-			    {loginError.message}<Icon>error</Icon></p> }
+			<Error error={loginError}/>
 		    </Row>
 		</div>
 	    </form>	    

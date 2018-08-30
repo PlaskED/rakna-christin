@@ -5,6 +5,7 @@ import axios from 'axios'
 import Dropzone from 'react-dropzone'
 
 import Loader from '../Loader/Loader'
+import Error from '../Error/Error'
 
 class DropzoneComponent extends Component {
     constructor(props) {
@@ -87,16 +88,12 @@ class DropzoneComponent extends Component {
 				<p>Klart!</p>
 			    </div>
 			  }
-			  { error &&
-			    <div>
-				<p className='text-error center'>{error.message}</p>
-			    </div>
-			  }
+			  <Error error={error}/>
 			  { (acceptedFiles.length > 0) &&
 			    <div>
 				<p>Laddar upp filer:</p>
 				acceptedFiles.map(it => (
-				<p>{it}</p>
+				<span>{it}, </span>
 				))
 			    </div>
 			  }
@@ -104,7 +101,7 @@ class DropzoneComponent extends Component {
 			    <div>
 				<p>Nekade filer:</p>
 				rejectedFiles.map(it => (
-				<p>{it}</p>
+				<span>{it}, </span>
 				))
 			    </div>
 			  }

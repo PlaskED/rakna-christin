@@ -3,6 +3,7 @@ import { Row, CardPanel, Divider } from 'react-materialize'
 import { connect } from 'react-redux'
 
 import Loader from '../Loader/Loader'
+import Error from '../Error/Error'
 import { getUser } from '../../redux/actions/user'
 
 class UserInfo extends Component {
@@ -15,14 +16,10 @@ class UserInfo extends Component {
     render() {
 	let { user, userPending, userSuccess, userError } = this.props
 	if (userPending) {
-	    return (
-		<Row><Loader/></Row>
-	    )
+	    return <Row><Loader/></Row>
 	}
 	if (userError) {
-	    return (
-		<p className='text-error center'>{userError.message}</p>
-	    )
+	    return <Error error={userError}/>
 	}
 	if (userSuccess && user) {
 	    return (
