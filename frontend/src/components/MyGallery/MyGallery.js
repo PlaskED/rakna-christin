@@ -81,14 +81,15 @@ class MyGallery extends Component {
 
 	return (
 	    <div>
-		<Row id='gallery-scrollable'>
-		    <div>Selected images: {selection}</div>
-		    <Gallery images={galleryPhotos}
-			     imageCountSeparator=' av '
-			     enableImageSelection={allowSelection}
-			     onSelectImage={this.onSelectImage}
-			     backdropClosesModal={true}
-		    />
+		<Row className="center">
+		    <div id="gallery-scrollable">
+			<Gallery images={galleryPhotos}
+				 imageCountSeparator=' av '
+				 enableImageSelection={allowSelection}
+				 onSelectImage={this.onSelectImage}
+				 backdropClosesModal={true}
+			/>
+		    </div>
 		</Row>
 		{ displayDelete && 
 		  <Row>

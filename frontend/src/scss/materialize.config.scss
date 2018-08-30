@@ -92,3 +92,8 @@ font-weight: bold;
 .bold {
 font-weight: bold;
 }
+
+.ReactGridGallery div.tile {
+float: none !important;	
+display: inline-block !important;
+}
