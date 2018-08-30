@@ -140,10 +140,13 @@ def uploadImages():
     err = helpers.generateError('Bad request', 400)
     return helpers.handleResponse(err)
 
-@app.route('/api/image/delete/<int:iid>', methods=['DELETE'])
+@app.route('/api/image/delete', methods=['POST'])
 @jwt_required
-def deleteImage(iid):
-    res = dbapi.deleteImage(iid)
+@cross_origin(headers=['Content-Type'])
+def deleteImages():
+    obj = request.get_json(silent=True)
+    images_idx = obj['delete_images']
+    res = dbapi.deleteImages(images_idx)
     return helpers.handleResponse(res, 204)
 
 @app.route('/api/user/email/change', methods=['POST'])

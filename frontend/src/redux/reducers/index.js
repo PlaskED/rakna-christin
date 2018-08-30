@@ -6,6 +6,7 @@ import reducerLogin from './login'
 import reducerLogout from './logout'
 import reducerUser from './user'
 import reducerToken from './token'
+import reducerGallery from './gallery'
 
 const rootPersistConfig = {
     key: 'root',
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
     reducerLogin: reducerLogin,
     reducerLogout: reducerLogout,
     reducerUser: persistReducer(userPersistConfig, reducerUser),
-    reducerToken: persistReducer(tokenPersistConfig, reducerToken)
+    reducerToken: persistReducer(tokenPersistConfig, reducerToken),
+    reducerGallery: reducerGallery,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

@@ -68,7 +68,7 @@ class DropzoneComponent extends Component {
 		      <Row>
 			  <Dropzone
 			      accept="image/jpeg, image/png, image/jpg"
-			      multiplie
+			      multiplie="true"
 			      onDrop={(files) => 
 				  { this.onDrop(files) }}
 			  >

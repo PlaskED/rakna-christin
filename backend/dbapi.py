@@ -1,4 +1,5 @@
 from backend import models, helpers, security
+import os
 
 def blacklistToken(_jti):
     revoked_token = models.RevokedToken(jti=_jti)
@@ -89,10 +90,13 @@ def createImage(_name, _path):
     models.db.session.add(image_object)
     return helpers.commitResponse(models.db.session, {}, image_object) 
 
-def deleteImage(iid):
-    image_object = getImage(iid)
-    if image_object is None:
-        return errorhelper.generateError("Image doesn't exist", 400)
-    models.db.session.delete(image_object)
-
+def deleteImages(images_idx):
+    """images_idx is array of ids of images to delete"""
+    res = []
+    for imgId in images_idx:
+        image_object = getImage(imgId)
+        if image_object is None:
+            return errorhelper.generateError("Image doesn't exist", 400)
+        os.remove(image_object.path) # Delete file on system
+        models.db.session.delete(image_object) # Delete file entry in database
     return helpers.commitResponse(models.db.session, {})

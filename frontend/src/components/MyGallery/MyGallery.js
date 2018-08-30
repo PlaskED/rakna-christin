@@ -1,23 +1,19 @@
 import React, { Component } from 'react'
 import { Row, Button } from 'react-materialize'
 import { connect } from 'react-redux'
-import axios from 'axios'
 import Gallery from 'react-grid-gallery'
 
+import { doGalleryRemove, 
+	 doGalleryAdd,
+	 doSetGalleryPhotos, 
+	 doSetGallerySelection } from '../../redux/actions/gallery'
 import Loader from '../Loader/Loader'
 
 class MyGallery extends Component {
     constructor(props) {
 	super(props)
-	this.state = {
-	    pending: false,
-	    error: null,
-	    success: false,
-	    photos: [],
-	    index: 0,
-	    selection: null,
-	}
-	this.onSelectImage = this.onSelectImage.bind(this);
+	this.onSelectImage = this.onSelectImage.bind(this)
+	this.onDeleteImages = this.onDeleteImages.bind(this)
     }
 
     componentDidMount() {
@@ -36,90 +32,103 @@ class MyGallery extends Component {
 
     trackScrolling = () => {
 	const wrappedElement = document.getElementById('gallery-scrollable')
-	if (this.isBottom(wrappedElement)) {
+	if (this.isBottom(wrappedElement) && this.props.galleryScrollable) {
 	    this.getPhotos()
 	}
     }
 
-    onSelectImage (index, image) {
-        var images = this.state.photos.slice()
+    onSelectImage(index, image) {
+        var images = this.props.galleryPhotos.slice()
+	var selection = this.props.gallerySelection.slice()
         var img = images[index]
-	var found = false
+	var newSelection = []
         if(img.hasOwnProperty("isSelected")) {
             img.isSelected = !img.isSelected
-	    found = images.find(it => it.isSelected === true) ? true : false
-	    this.setState({ photos: images, selection: found})
+	    newSelection = selection.filter(it => it !== img.alt)
         } else {
             img.isSelected = true
-	    found = true
+	    newSelection = selection.concat(img.alt)
 	}
-	this.setState({ photos: images, selection: found})
+	this.props.doSetGalleryPhotos(images)
+	this.props.doSetGallerySelection(newSelection)
+    }
+
+    onDeleteImages() {
+	let { accessToken, galleryRemovePending,
+	      galleryPhotos, gallerySelection } = this.props
+	if (!galleryRemovePending) {
+	    this.props.doGalleryRemove(accessToken,
+				       gallerySelection, galleryPhotos)
+	}
     }
 
     getPhotos() {
-	document.removeEventListener('scroll', this.trackScrolling)
-	this.setState({pending: true})
-	axios({
-	    method:'get',
-	    url: 'http://localhost:5000/api/images/'.concat(this.state.index),
-	    headers: {
-		Authorization: 'Bearer '.concat(this.props.accessToken)
-	    }
-	}).then(response => {
-	    const newPhotos = response.data.data
-	    const path = window.location.origin + '/uploads/photos/'
-	    this.setState({ 
-		photos: this.state.photos.concat(newPhotos.map(it => ({
-		    src: path.concat(it.name),
-		    thumbnail: path.concat(it.name),
-		    minHeight: "1px",
-                    width: "100%",
-		}))),
-		pending: false,
-		success: true,
-	    })
-	    if (newPhotos.length !== 0) {
-		this.setState({ index: newPhotos[newPhotos.length-1].id })
-		document.addEventListener('scroll', this.trackScrolling)
-	    }
-	}).catch(err => { 
-	    this.setState({error: err})
-	    document.addEventListener('scroll', this.trackScrolling)
-	})
+	let { accessToken, galleryPhotos } = this.props
+	const path = window.location.origin + '/uploads/photos/'
+	var lastIndex = 0
+	if (galleryPhotos.length > 0)
+	    lastIndex = galleryPhotos[galleryPhotos.length-1].alt
+	this.props.doGalleryAdd(accessToken, lastIndex, path)	
     }
 
     render() {
-	let { accessToken } = this.props
-	let { pending, success, error, photos, selection } = this.state
+	let { accessToken, galleryRemovePending, galleryRemoveError, 
+	      galleryAddPending, galleryAddError, galleryPhotos,
+	      gallerySelection } = this.props
+	var displayDelete = accessToken && gallerySelection.length > 0
+	var allowSelection = accessToken != null
 
-	if (error) {
-	    return (
-		<p className='text-error center'>{error.message}</p>
-	    )
-	} else {
-	    return (
-		<div>
-		    <Row id='gallery-scrollable'> 
-			<Gallery images={photos} 
-				 imageCountSeparator=' av '
-				 onSelectImage={this.onSelectImage}
-			/>
-		    </Row>
-		    { accessToken && selection &&
-		      <Row>
-			  <Button type='submit' waves='light' icon='delete_forever'>Ta bort markerade</Button>
-		      </Row> }
-		    { pending && <Row><Loader/></Row> }
-		</div>
-	    )
-	}
+	return (
+	    <div>
+		<Row id='gallery-scrollable'> 
+		    <Gallery images={galleryPhotos}
+			     imageCountSeparator=' av '
+			     enableImageSelection={allowSelection}
+			     onSelectImage={this.onSelectImage}
+			     backdropClosesModal={true}
+		    />
+		</Row>
+		{ displayDelete && 
+		  <Row>
+		      <Button type='submit' waves='light' icon='delete_forever'
+			      onClick={(e) => {
+				      if (window.confirm('Vill du ta bort markerade bilder?')) this.onDeleteImages(e) } 
+			      }>
+			  Ta bort markerade</Button>
+		  </Row> }
+		    { galleryAddPending && <Row><Loader/></Row> }
+		    { galleryAddError && <p className='text-error center'>{galleryAddError.message}</p> }
+		    { galleryRemovePending && <Row><p>Tar bort bilder, lämna inte sidan..</p><Loader/></Row>}
+		    { galleryRemoveError && <p className='text-error center'>{galleryRemoveError.message}</p> }
+	    </div>
+	)
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-	accessToken: state.reducerToken.accessToken
+	accessToken: state.reducerToken.accessToken,
+	galleryRemovePending: state.reducerGallery.galleryRemovePending,
+	galleryRemoveError: state.reducerGallery.galleryRemoveError,
+	galleryAddPending: state.reducerGallery.galleryAddPending,
+	galleryAddError: state.reducerGallery.galleryAddError,
+	galleryPhotos: state.reducerGallery.galleryPhotos,
+	gallerySelection: state.reducerGallery.gallerySelection,
+	galleryScrollable: state.reducerGallery.galleryScrollable,
     }
 }
 
-export default connect(mapStateToProps, null)(MyGallery)
+const mapDispatchToProps = (dispatch) => {
+    return {
+	doGalleryRemove: (token, imagesIdx, photos) =>
+	    dispatch(doGalleryRemove(token, imagesIdx, photos)),
+	doGalleryAdd: (token, lastIndex, path) =>
+	    dispatch(doGalleryAdd(token, lastIndex, path)),
+	doSetGalleryPhotos: (photos) =>
+	    dispatch(doSetGalleryPhotos(photos)),
+	doSetGallerySelection: (selection) =>
+	    dispatch(doSetGallerySelection(selection))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyGallery)
