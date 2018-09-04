@@ -14,7 +14,7 @@ class Prices extends Component {
 			<h4>
 			    Undervisning i Rönninge hos mig
 			</h4>
-			<ul class="circle">
+			<ul className="circle">
 			    <li>
 				Prova-på-erbjudande! 3 h - 1 000 kr
 			    </li>
@@ -23,7 +23,7 @@ class Prices extends Component {
 			    </li>
 			</ul>
 			<h4>Undervisning hemma hos elev</h4>
-			<ul class="circle">
+			<ul className="circle">
 			    <li>
 				Undervisning för en person - 550 kr/h
 				<ul>

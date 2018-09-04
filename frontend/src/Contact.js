@@ -11,7 +11,7 @@ class Contact extends Component {
 		</Row>
 		<Row>
 		    <Col s={6} className="left">
-			<div class="col-md-7">
+			<div className="col-md-7">
 			    <h4>Christin Holm</h4>
 			    <b>Mail: </b> 
 			    <a href="mailto:holmchristin@gmail.com?Subject=Räkna%20med%20christin:%20" target="_top">
