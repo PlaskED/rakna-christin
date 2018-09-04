@@ -3,6 +3,7 @@ import { TOKEN_REFRESH_PENDING, TOKEN_REFRESH_SUCCESS, TOKEN_REFRESH_ERROR,
 	 SET_ACCESS_TOKEN, SET_REFRESH_TOKEN } from './types'
 import { resetLoginState } from './login'
 import { resetUserState } from './user'
+import { api } from '../../globals'
 
 function setTokenRefreshPending(tokenRefreshPending) {
     return {
@@ -43,7 +44,7 @@ function callRefreshTokenApi(refreshToken, cb) {
     setTimeout(() => {
 	axios({
 	    method:'post',
-	    url: 'http://localhost:5000/api/token/refresh',
+	    url: api.concat('/token/refresh'),
 	    headers: {
 		Authorization: 'Bearer '.concat(refreshToken)
 	    }

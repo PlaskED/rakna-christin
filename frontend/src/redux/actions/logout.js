@@ -3,6 +3,7 @@ import { LOGOUT_PENDING, LOGOUT_SUCCESS, LOGOUT_ERROR } from './types'
 import { resetTokenState } from './token'
 import { setUser } from './user'
 import { resetLoginState } from './login'
+import { api } from '../../globals'
 
 function setLogoutPending(logoutPending) {
     return {
@@ -28,7 +29,7 @@ function setLogoutSuccess(logoutSuccess) {
 function callLogoutAccessApi(accessToken) {
     return axios({
 	method:'get',
-	url: 'http://localhost:5000/api/logout/access',
+	url: api.concat('/logout/access'),
 	headers: {
 	    Authorization: 'Bearer '.concat(accessToken)
 	}
@@ -38,7 +39,7 @@ function callLogoutAccessApi(accessToken) {
 function callLogoutRefreshApi(refreshToken) {
     return axios({
 	method:'get',
-	url: 'http://localhost:5000/api/logout/refresh',
+	url: api.concat('/logout/refresh'),
 	headers: {
 	    Authorization: 'Bearer '.concat(refreshToken)
 	}

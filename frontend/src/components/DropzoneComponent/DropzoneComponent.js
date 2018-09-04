@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone'
 
 import Loader from '../Loader/Loader'
 import Error from '../Error/Error'
+import { api } from '../../globals'
 
 class DropzoneComponent extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class DropzoneComponent extends Component {
 	this.setState({pending: true})
 	axios({
 	    method:'post',
-	    url: 'http://localhost:5000/api/image/upload',
+	    url: api.concat('/image/upload'),
 	    data: files,
 	    headers: {
 		Authorization: 'Bearer '.concat(this.props.accessToken),

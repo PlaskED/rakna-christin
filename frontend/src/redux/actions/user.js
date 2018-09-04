@@ -1,7 +1,7 @@
 import axios from 'axios'
-
 import { USER_PENDING, USER_SUCCESS, USER_ERROR,
 	 SET_USER } from './types'
+import { api } from '../../globals'
 
 function setUserPending(userPending) {
     return {
@@ -34,7 +34,7 @@ export function setUser(user) {
 function callGetUserApi(accessToken) {
     return axios({
 	method:'get',
-	url: 'http://localhost:5000/api/user/get',
+	url: api.concat('/user/get'),
 	headers: {
 	    Authorization: 'Bearer '.concat(accessToken)
 	}

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { LOGIN_PENDING, LOGIN_SUCCESS, LOGIN_ERROR } from './types'
 import { setUser } from './user'
 import { setAccessToken, setRefreshToken, resetTokenState } from './token'
+import { api } from '../../globals'
 
 function setLoginPending(loginPending) {
     return {
@@ -27,7 +28,7 @@ function setLoginError(loginError) {
 function callLoginApi(username, password) {
     return axios({
 	method:'post',
-	url: 'http://localhost:5000/api/login',
+	url: api.concat('/login'),
 	data: {
 	    username: username,
 	    password: password,

@@ -4,6 +4,7 @@ import { GALLERY_ADD_PENDING, GALLERY_ADD_SUCCESS,
 	 GALLERY_REMOVE_SUCCESS, GALLERY_REMOVE_ERROR,
 	 GALLERY_ADD_PHOTOS, GALLERY_REMOVE_PHOTOS,
 	 GALLERY_SET_PHOTOS, GALLERY_SET_SCROLLABLE } from './types'
+import { api } from '../../globals'
 
 function setGalleryAddPending(galleryAddPending) {
     return {
@@ -80,7 +81,7 @@ function callGalleryRemoveApi(accessToken, imagesIdx, cb) {
     setTimeout(() => {
 	axios({
 	    method:'post',
-	    url: 'http://localhost:5000/api/image/delete',
+	    url: api.concat('/image/delete'),
 	    data: { delete_images: imagesIdx },
 	    headers: {
 		Authorization: 'Bearer '.concat(accessToken)
@@ -96,7 +97,7 @@ function callGalleryRemoveApi(accessToken, imagesIdx, cb) {
 function callGalleryAddApi(accessToken, lastIndex, cb) {
     axios({
 	method:'get',
-	url: 'http://localhost:5000/api/images/'.concat(lastIndex),
+	url: api.concat('/images/'.concat(lastIndex)),
 	headers: {
 	    Authorization: 'Bearer '.concat(accessToken)
 	}

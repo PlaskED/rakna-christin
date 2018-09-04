@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import Loader from '../Loader/Loader'
 import Error from '../Error/Error'
+import { api } from '../../globals'
 
 class Notifications extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class Notifications extends Component {
 	this.setState({pending: true})
 	axios({
 	    method:'get',
-	    url: 'http://localhost:5000/api/notifications/' + this.state.index,
+	    url: api + '/notifications/' + this.state.index,
 	    headers: {
 		Authorization: 'Bearer '.concat(this.props.accessToken)
 	    }
