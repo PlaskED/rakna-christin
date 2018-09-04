@@ -10,7 +10,7 @@ def getUser(uid):
     return models.User.query.get(uid)
 
 def getAdminMailList():
-    admins = models.User.query.filter_by(admin=true).all()
+    admins = models.User.query.filter_by(admin=True).all()
     return [admin.to_json()['email'] for admin in admins]
 
 def getUserByEmail(_email):

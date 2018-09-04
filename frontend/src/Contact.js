@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Col, Row, Divider } from 'react-materialize'
 
+import ContactForm from './components/ContactForm/ContactForm'
+
 class Contact extends Component {
     render() {
 	return (
@@ -35,10 +37,13 @@ class Contact extends Component {
 			alt="Contact" />
 		    </Col>
 		</Row>
+		<Row>
+		    <ContactForm/>
+		</Row>
 	    </div>
 	)
 
     }
 }
 
-export default Contact;
+export default Contact

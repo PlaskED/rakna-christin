@@ -32,19 +32,14 @@ class Notifications extends Component {
 	    this.setState({ 
 		notifications: this.state.notifications.concat(newNotifications),
 		pending: false,
-		success: true 
+		success: true,
+		error: null
 	    })
 	    if (newNotifications.length !== 0) {
 		this.setState({ index: newNotifications[newNotifications.length-1].id })
 	    }
-	}).catch(err => { this.setState({error: err}) })
+	}).catch(err => { this.setState({error: err, success: false, pending:false}) })
     }
-
-    //id':self.id, 'checked':self.checked, 
-    //'name':self.name, 'comment':self.comment,
-    //'email':self.email, 'telephone':self.telephone,
-    //'when':self.when, 'address':self.get_address(),
-    //'created':self.created.strftime('%Y-%m-%d %H:%M:%S')}
 
     render() {
 	let { notifications, pending, error, success } = this.state

@@ -9,7 +9,7 @@ class Notification(db.Model):
     comment = db.Column(db.String(2048), nullable=False)
     created = db.Column(db.DateTime(), nullable=False)
     telephone = db.Column(db.String(20), nullable=False)
-    when = db.Column(db.String(32), nullable=False)
+    when = db.Column(db.String(64), nullable=False)
 
     address = db.relationship("Address", uselist=False, 
                     back_populates="notification", lazy='joined')
@@ -22,7 +22,6 @@ class Notification(db.Model):
 
     def to_json(self):
         address = self.get_address()
-        del address['id']
         return {'id':self.id, 'checked':self.checked, 
                 'name':self.name, 'comment':self.comment,
                 'email':self.email, 'telephone':self.telephone,

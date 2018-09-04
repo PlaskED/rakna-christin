@@ -1,6 +1,7 @@
 from backend import app, mail
 from flask import jsonify
 from flask_mail import Message
+import time
 
 def generateError(msg, code):
     res = {}

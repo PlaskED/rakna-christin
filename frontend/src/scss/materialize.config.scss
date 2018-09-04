@@ -98,6 +98,14 @@ float: none !important;
 display: inline-block !important;
 }
 
+.react-datepicker button.react-datepicker__navigation--next {
+background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.react-datepicker button.react-datepicker__navigation--previous {
+background-color: rgba(0, 0, 0, 0) !important;
+}
+
 h1, h2, h3,
 h4, h5, h6, a {
 font-family: Oswald, sans-serif;
