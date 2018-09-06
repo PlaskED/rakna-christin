@@ -7,6 +7,9 @@ JWT_SECRET_KEY = 'jwt-secret-key' #generate your own key
 JWT_BLACKLIST_ENABLED = True
 JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
 
+#reCaptcha secrekey
+RECAPTCHA_SECRET = 'my-secret-recaptcha' #set to your own secret captcha key
+
 #DB settings
 DB_USER = 'root' #db user username
 DB_PASSWORD = 'root' #db user password

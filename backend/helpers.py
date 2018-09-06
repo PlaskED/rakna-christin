@@ -2,6 +2,7 @@ from backend import app, mail
 from flask import jsonify
 from flask_mail import Message
 import time
+import requests
 
 def generateError(msg, code):
     res = {}
@@ -55,3 +56,8 @@ def send_email(to, subject, template):
         sender=app.config['MAIL_USERNAME']
     )
     mail.send(msg)
+
+def verify_recaptcha(recaptcha):
+    payload = {'secret': app.config['RECAPTCHA_SECRET'], 'response': recaptcha}
+    r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
+    return r.status_code is 200

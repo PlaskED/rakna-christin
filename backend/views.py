@@ -97,6 +97,9 @@ def getNotifications(index):
 @app.route('/api/notification/create', methods=['POST'])
 def createNotification():
     obj = request.get_json(silent=True)
+    if not helpers.verify_recaptcha(obj['recaptcha']):
+        err = helpers.generateError('Incorrect recaptcha', 400)
+        return helpers.handleResponse(err)
     res = dbapi.createNotification(obj)
     if 'data' in res:
         #to = app.config['MAIL_NOTIFY_GROUP']
