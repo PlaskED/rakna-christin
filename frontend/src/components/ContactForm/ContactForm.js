@@ -125,7 +125,7 @@ class ContactForm extends Component {
 			    }
 			    if (!values.comment) {
 				errors.comment = 'Obligatoriskt fält';
-			    } else if (values.comment.length < 10 || values.comment.length > 64) {
+			    } else if (values.comment.length < 10 || values.comment.length > 2048) {
 				errors.comment = 'Beskrivning måste vara mellan 10 och 2048 tecken';
 			    }
 			    if (!this.state.when) {
