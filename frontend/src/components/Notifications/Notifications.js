@@ -80,7 +80,7 @@ class Notifications extends Component {
 				<span className="bold">Email: </span><span>{it.email}</span><br/>
 				<span className="bold">Telefon: </span><span>{it.telephone}</span><br/>
 				<span className="bold">Address: </span><span>{it.address.city}, {it.address.road}, {it.address.number}</span><br/>
-				<span className="bold">Vill ha hjälp från: </span><span>{moment(it.when, "YYYY-MM-DD")
+				<span className="bold">Vill ha hjälp från och med: </span><span>{moment(it.when, "YYYY-MM-DD")
 				    .format("YYYY-MM-DD")}</span><br/>
 				<blockquote>"{it.comment}"</blockquote>
 			    </Col>
