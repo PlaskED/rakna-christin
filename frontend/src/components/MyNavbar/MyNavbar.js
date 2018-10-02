@@ -5,13 +5,43 @@ import { connect } from 'react-redux'
 // eslint-disable-next-line 
 import M from 'materialize-css'
 
+import { getUnread } from '../../redux/actions/unread'
+
 class MyNavbar extends Component {
+    constructor(props) {
+	super(props)
+	this.state = { timer: null, counter: 0 }
+	this.tick = this.tick.bind(this)
+    }
+    componentDidMount() {
+	if (this.props.accessToken)
+	    this.props.getUnread(this.props.accessToken)
+	let newTimer = setInterval(this.tick, 10000)
+	this.setState({timer: newTimer})
+    }
+    componentWillUnmount() {
+	clearInterval(this.state.timer)
+    }
+    tick() {
+	let { accessToken } = this.props
+	let { counter } = this.state
+	if(accessToken) {
+	    this.setState({ counter: counter + 1 })
+	    if (counter >= 6) {
+		if (accessToken)
+		    this.props.getUnread(accessToken)
+		this.setState({ counter: 0 })
+	    }
+	} else {
+	    this.setState({ counter: 0 })
+	}
+    }
     getNavLinkClass = (path) => {
 	return this.props.location.pathname === path ? 'active' : ''
     }
 
     render() {
-	let { accessToken } = this.props
+	let { accessToken, unread } = this.props
 	let logo = 
 	    <Col offset='s2'>
 		<img className='responsive-image'
@@ -35,6 +65,7 @@ class MyNavbar extends Component {
 		{ accessToken && <li className={this.getNavLinkClass('/notifikationer')}><NavLink to='/notifikationer'>
 		    <i className='material-icons icon-main left'>account_circle</i>Notifikationer</NavLink>
 		</li> }
+		    { accessToken && <li>{unread}</li>}
 		    { accessToken && <li className={this.getNavLinkClass('/logga_ut')}><NavLink to='/logga_ut'>
 			<i className='material-icons icon-main left'>keyboard_return</i>Logga ut</NavLink>
 		    </li> }
@@ -50,7 +81,14 @@ class MyNavbar extends Component {
 const mapStateToProps = (state) => {
     return {
 	accessToken: state.reducerToken.accessToken,
+	unread: state.reducerUnread.unread,
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+	getUnread: (token) =>
+	    dispatch(getUnread(token)),
     }
 }
 
-export default withRouter(connect(mapStateToProps, null)(MyNavbar))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyNavbar))

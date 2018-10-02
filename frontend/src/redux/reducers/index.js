@@ -7,11 +7,12 @@ import reducerLogout from './logout'
 import reducerUser from './user'
 import reducerToken from './token'
 import reducerGallery from './gallery'
+import reducerUnread from './unread'
 
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['reducerUser', 'reducerToken']
+    whitelist: ['reducerUser', 'reducerToken', 'reducerUnread']
 }
 
 const tokenPersistConfig = {
@@ -26,12 +27,19 @@ const userPersistConfig = {
     whitelist: ['user']
 }
 
+const unreadPersistConfig = {
+    key: 'reducerUnread',
+    storage: storage,
+    whitelist: ['unread']
+}
+
 const rootReducer = combineReducers({
     reducerLogin: reducerLogin,
     reducerLogout: reducerLogout,
     reducerUser: persistReducer(userPersistConfig, reducerUser),
     reducerToken: persistReducer(tokenPersistConfig, reducerToken),
     reducerGallery: reducerGallery,
+    reducerUnread: persistReducer(unreadPersistConfig, reducerUnread),
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

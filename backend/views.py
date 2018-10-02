@@ -85,6 +85,14 @@ def logoutRefresh():
     res = {}
     res['data'] = dbapi.blacklistToken(jti)
     return helpers.handleResponse(res)
+
+@app.route('/api/notifications/unread', methods=['GET'])
+@jwt_required
+@cross_origin(headers=['Content-Type'])
+def getUnread():
+    res = {}
+    res['data'] = dbapi.getUnread()
+    return helpers.handleResponse(res)
         
 @app.route('/api/notifications/<int:index>', methods=['GET'])
 @jwt_required

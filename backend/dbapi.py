@@ -40,6 +40,12 @@ def changeEmail(obj):
     user_object.email = obj['email']
     return helpers.commitResponse(models.db.session, {}, user_object)
 
+def getUnread():
+    unread = models.Notification.query\
+             .filter(models.Notification.checked == False)\
+             .count()
+    return {'unread': unread}
+
 def getNotifications(index):
     notifications = models.Notification.query\
                     .filter(models.Notification.id > index)\
