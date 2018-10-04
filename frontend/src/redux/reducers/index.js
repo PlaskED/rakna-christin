@@ -8,6 +8,7 @@ import reducerUser from './user'
 import reducerToken from './token'
 import reducerGallery from './gallery'
 import reducerUnread from './unread'
+import reducerNotifications from './notifications'
 
 const rootPersistConfig = {
     key: 'root',
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
     reducerToken: persistReducer(tokenPersistConfig, reducerToken),
     reducerGallery: reducerGallery,
     reducerUnread: persistReducer(unreadPersistConfig, reducerUnread),
+    reducerNotifications: reducerNotifications,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)

@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom'
 export default () => (
     <Footer copyrights='©2018 Räkna med Christin'
 	    moreLinks={
-		<NavLink to='/login'>
-		    <p className='white-text text-lighten-4 right'>Github</p>
+		<NavLink to='#'>
+		    <p className='white-text text-lighten-4 right'>Länk</p>
 		</NavLink>
 	    }
 	    links={
