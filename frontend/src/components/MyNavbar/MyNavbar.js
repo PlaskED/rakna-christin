@@ -11,27 +11,28 @@ import { getUnread } from '../../redux/actions/unread'
 class MyNavbar extends Component {
     constructor(props) {
 	super(props)
-	this.state = { timer: null, counter: 0 }
+	this.state = { timer: null, counter: 0, prevUnread: null }
 	this.tick = this.tick.bind(this)
     }
     componentDidMount() {
 	if (this.props.accessToken)
 	    this.props.getUnread(this.props.accessToken)
-	let newTimer = setInterval(this.tick, 10000)
+	let newTimer = setInterval(this.tick, 20000)
 	this.setState({timer: newTimer})
     }
     componentWillUnmount() {
 	clearInterval(this.state.timer)
     }
     tick() {
-	let { accessToken } = this.props
-	let { counter } = this.state
+	let { accessToken, unread } = this.props
+	let { counter, prevUnread } = this.state
+	var newUnread = unread ? unread : prevUnread
 	if(accessToken) {
 	    this.setState({ counter: counter + 1 })
 	    if (counter >= 6) {
 		if (accessToken)
 		    this.props.getUnread(accessToken)
-		this.setState({ counter: 0 })
+		this.setState({ prevUnread: newUnread, counter: 0 })
 	    }
 	} else {
 	    this.setState({ counter: 0 })
@@ -43,14 +44,19 @@ class MyNavbar extends Component {
 
     render() {
 	let { accessToken, unread } = this.props
+	let { prevUnread } = this.state
 	let logo = 
 	    <Col offset='s2'>
 		<img className='responsive-image'
 		     src={window.location.origin+'/img/logga_raknamedchristin.svg'}
 		     alt='Logo'
 		     width='220px' />
-	    </Col>
-	    return (
+	    </Col>;
+	if (prevUnread && prevUnread < unread) {
+	    alert("Du har fått en ny notifikation!")
+	    this.setState({prevUnread: unread})
+	}
+	return (
 	    <Navbar brand={logo} right >
 		<div>
 		    <li className={this.getNavLinkClass('/')}><NavLink to='/'>
