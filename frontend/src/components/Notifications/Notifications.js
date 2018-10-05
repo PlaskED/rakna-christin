@@ -9,6 +9,10 @@ import Loader from '../Loader/Loader'
 import Error from '../Error/Error'
 
 class Notifications extends Component {
+    constructor(props) {
+	super(props)
+	this.state = { removeId: null }
+    }
     componentDidMount() {
 	this.getNotifications()
 	document.addEventListener("scroll", this.trackScrolling)
@@ -37,12 +41,14 @@ class Notifications extends Component {
     }
 
     removeNotification(removeId) {
+	this.setState({removeId: removeId})
 	this.props.doRemoveNotification(this.props.accessToken, removeId)
     }
 
     render() {
 	let { notifications, notificationsPending, notificationsError,
 	    removePending, removeError } = this.props
+	let { removeId } = this.state
 
 	return (
 	    <div id="notifications-scrollable"> {
@@ -77,7 +83,7 @@ class Notifications extends Component {
 					}/>
 				    </Col>
 				    <Col s={12}>
-					{ removePending && <Row><Loader/></Row> }
+					{ (removePending && it.id===removeId) && <Row><Loader/></Row> }
 					{ removeError && <Error error={removeError}/> }
 				    </Col>
 				</Col>
