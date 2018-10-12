@@ -14,9 +14,7 @@ class DataAgreement extends Component {
 		<h5>I vilka syften lagrar vi personuppgifter?</h5>
 		<p>För att du ska kunna upprätta en kontakt med oss på ett smidigt och systematiskt sätt för att nyttja våra tjänster. Också för att snabbt få en övergripande bild av vilken tjänst du är intresserad av och när.</p>
 		<h5>Dina rättigheter</h5>
-		<p>Dina användaruppgifter lagras hos oss så länge vi anser behöva dem, men du kan när som helst kontakta oss för att få dina uppgifter raderade. Om vi i framtiden behöver ändra detta avtal kommer vi be dig att godkänna avtalet på nytt.</p>
-		<h5>Under 16 år</h5>
-		<p>Om du ännu inte fyllt 16 år behöver vi inhämta din målsmans tillstånd för att få lagra och behandla uppgifter om dig. Därför om du är under 16 år ska du kontakta oss tillsammans med din målsman för att kunna nyttja våra tjänster. </p>
+		<p>Dina användaruppgifter lagras hos oss så länge vi anser behöva dem, men du kan när som helst kontakta oss för att få dina uppgifter raderade. Vi kan i framtiden komma att behöva ändra avtalet och kommer då be dig godkänna det på nytt.</p>
 	    </div>
 	)
     }

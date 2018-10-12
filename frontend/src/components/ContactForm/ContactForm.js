@@ -88,7 +88,6 @@ class ContactForm extends Component {
 		    number: '',
 		    when: '',
 		    recaptcha: '',
-		    over16: '',
 		    agreeTerms: '',
 		}}
 		validate={values => {
@@ -137,20 +136,20 @@ class ContactForm extends Component {
 		    } else if (!errors.when instanceof Date) {
 			errors.when = 'Välj ett korrekt datum (YYYY-MM-DD)';
 		    }
-		    if (!values.recaptcha) {
+		    if (!values.recaptcha)
 			errors.recaptcha = 'Verifiera att du är en människa';
-		    }
-		    if (!values.agreeTerms) {
+		    if (!values.agreeTerms)
 			errors.agreeTerms = 'Du måste godkänna användaravtalet'
-		    }
-		    if (!values.over16) {
-			errors.over16 = 'Du måste intyga att du är 16 eller äldre'
-		    }
+
 		    return errors;
 		}}
 		onSubmit={(values, {resetForm}) => {
-		    this.contactSubmit(values)
-		    resetForm({});
+		    //Final check just incase
+		    if (values.agreeTerms) {
+			this.contactSubmit(values)
+			resetForm({});
+		    }
+		    alert(values.agreeTerms)
 		}}
 		render={({
 		    values,
@@ -163,160 +162,150 @@ class ContactForm extends Component {
 		    resetForm,
 		}) => (
 		    <form onSubmit={handleSubmit}>
-		    <div className='center'>
-		    <Row>
-		    <Col offset='s2' s={8}>
-		    <h4>Kontaktformulär</h4>
-		    <Divider/>
-		    <Section>
-		    <h5>Kontaktuppgifter</h5>
-		    <Input s={12} name='name' 
-		    icon='account_circle' data-length='64'
-		    onChange={handleChange}
-		    onBlur={handleBlur}
-		    value={values.name || ''}
-		    label='Namn'
-		    /> <ErrorInput touched={touched.name} error={errors.name}/>
-		    <Input s={12} name="email"
-		    icon='email' data-length='64'
-		    onChange={handleChange}
-		    onBlur={handleBlur}
-		    value={values.email || ''}
-		    label='Email'
-		    /> <ErrorInput touched={touched.email} error={errors.email}/>
-		    <Input s={12} name="telephone"
-		    icon='phone' data-length='20'
-		    onChange={handleChange}
-			   onBlur={handleBlur}
-			   value={values.telephone || ''}
-			   label='Telefon'
-		    /> <ErrorInput touched={touched.telephone} error={errors.telephone}/>
-					</Section>
-				    </Col>
-				</Row>
-				<Row>
-				    <Col offset='s2' s={8}>
-					<Section>
-					    <Input s={5} name='city'
-						   data-length='64'
-						   onChange={handleChange}
-						   onBlur={handleBlur}
-						   value={values.city || ''}
-						   label='Stad' 
-					    />    
-					    <Input s={5} name='road'
-						   data-length='64'
-						   onChange={handleChange}
-						   onBlur={handleBlur}
-					    value={values.road || ''} 
-					    label='Väg' 
-					    />
-					    <Input s={2} name='number'
-						   data-length='10'
-						   onChange={handleChange}
-						   onBlur={handleBlur}
-						   value={values.number || ''}
-						   label='Nummer'
-					    />
-					    <Col s={5}><ErrorInput touched={touched.city} error={errors.city}/></Col>
-					    <Col s={5}><ErrorInput touched={touched.road} error={errors.road}/></Col>
-					    <Col s={2}><ErrorInput touched={touched.number} error={errors.number}/></Col>
-					</Section>
-				    </Col>
-				</Row>
-				<Row>
-				    <Col offset='s2' s={8}>
-					<Section>
-					    <h5>Beskrivning</h5>
-					    <Input s={12} name='comment'
-						   data-length='2048'
-						   onChange={handleChange}
-						   onBlur={handleBlur}
-						   value={values.comment || ''}
-						   label='Jag behöver hjälp med'
-						   type='textarea'
-					    />
-					    <ErrorInput touched={touched.comment} error={errors.comment}/>
-					    <Col s={6}>
-						<span>
-						    Från vilket datum vill du ha hjälp?
-						</span>
-						<DatePicker name='when'
-							    selected={this.state.when}
-							    onChange={this.handleDateChange}
-							    onBlur={handleBlur}
-							    minDate={moment()}
-							    locale='sv'
-							    dateFormat="YYYY-MM-DD"
-							    popperPlacement='top'
-							    placeholderText="Välj ett datum"
-							    popperModifiers={{
-								flip: {
-								    enabled: false
-								},
-								preventOverflow: {
-								    enabled: true,
-								    escapeWithReference: false
-								}
-							    }}
-						/>
-					    </Col>
-					    <Col s={6}>
-						<Recaptcha
-						    name='recaptcha'
-						    sitekey={publicKey}
-						    render="explicit"
-						    theme="light"
-						    verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
-						    onloadCallback={() => {}}
-						/>
-					    </Col>
-					    <Col s={6}><ErrorInput touched={touched.when} error={errors.when}/></Col>
-					    <Col s={6}><ErrorInput touched={touched.recaptcha} error={errors.recaptcha}/></Col>
-					</Section>
-				    </Col>
-				</Row>
-				<Row>
-				    <Col offset='s2' s={8}>
-					<DataAgreement/>
-					<Input s={12} name='agreeTerms'
-					       className='filled-in'
-					       checked={values.agreeTerms === 'agreeTerms' }
-					       value='agreeTerms'
-					       type='checkbox'
+			<div className='center'>
+			    <Row>
+				<Col offset='s2' s={8}>
+				    <h4>Kontaktformulär</h4>
+				    <Divider/>
+				    <Section>
+					<h5>Kontaktuppgifter</h5>
+					<Input s={12} name='name' 
+					       icon='account_circle' data-length='64'
 					       onChange={handleChange}
 					       onBlur={handleBlur}
-					       label='Jag ger er tillstånd att lagra och behandla mina användaruppgifter'
-					/>
-					<Col s={12}><ErrorInput touched={touched.agreeTerms} error={errors.agreeTerms}/></Col>
-					<Input s={12} name='over16'
-					       className='filled-in'
-					       checked={values.over16 === 'over16' }
-					       value = 'over16'
-					       type='checkbox'
+					       value={values.name || ''}
+					       label='Namn'
+					/> <ErrorInput touched={touched.name} error={errors.name}/>
+					<Input s={12} name="email"
+					       icon='email' data-length='64'
 					       onChange={handleChange}
 					       onBlur={handleBlur}
-					       label='Jag är 16 år eller äldre'
+					       value={values.email || ''}
+					       label='Email'
+					/> <ErrorInput touched={touched.email} error={errors.email}/>
+					<Input s={12} name="telephone"
+					       icon='phone' data-length='20'
+					       onChange={handleChange}
+					       onBlur={handleBlur}
+					       value={values.telephone || ''}
+					       label='Telefon'
+					/> <ErrorInput touched={touched.telephone} error={errors.telephone}/>
+				    </Section>
+				</Col>
+			    </Row>
+			    <Row>
+				<Col offset='s2' s={8}>
+				    <Section>
+					<Input s={5} name='city'
+					       data-length='64'
+					       onChange={handleChange}
+					       onBlur={handleBlur}
+					       value={values.city || ''}
+					       label='Stad' 
+					/>    
+					<Input s={5} name='road'
+					       data-length='64'
+					       onChange={handleChange}
+					       onBlur={handleBlur}
+					       value={values.road || ''} 
+					       label='Väg' 
 					/>
-					<Col s={12}><ErrorInput touched={touched.over16} error={errors.over16}/></Col>
-				    </Col>
-				</Row>
-				<Row>
-				    <Col offset='s2' s={8}>
-					<Button type='submit' waves='light'
+					<Input s={2} name='number'
+					       data-length='10'
+					       onChange={handleChange}
+					       onBlur={handleBlur}
+					       value={values.number || ''}
+					       label='Nummer'
+					/>
+					<Col s={5}><ErrorInput touched={touched.city} error={errors.city}/></Col>
+					<Col s={5}><ErrorInput touched={touched.road} error={errors.road}/></Col>
+					<Col s={2}><ErrorInput touched={touched.number} error={errors.number}/></Col>
+				    </Section>
+				</Col>
+			    </Row>
+			    <Row>
+				<Col offset='s2' s={8}>
+				    <Section>
+					<h5>Beskrivning</h5>
+					<Input s={12} name='comment'
+					       data-length='2048'
+					       onChange={handleChange}
+					       onBlur={handleBlur}
+					       value={values.comment || ''}
+					       label='Jag behöver hjälp med'
+					       type='textarea'
+					/>
+					<ErrorInput touched={touched.comment} error={errors.comment}/>
+					<Col s={6}>
+					    <span>
+						Från vilket datum vill du ha hjälp?
+					    </span>
+					    <DatePicker name='when'
+							selected={this.state.when}
+							onChange={this.handleDateChange}
+							onBlur={handleBlur}
+							minDate={moment()}
+							locale='sv'
+							dateFormat="YYYY-MM-DD"
+							popperPlacement='top'
+							placeholderText="Välj ett datum"
+							popperModifiers={{
+							    flip: {
+								enabled: false
+							    },
+							    preventOverflow: {
+								enabled: true,
+								escapeWithReference: false
+							    }
+							}}
+					    />
+					</Col>
+					<Col s={6}>
+					    <Recaptcha
+						name='recaptcha'
+						sitekey={publicKey}
+						render="explicit"
+						theme="light"
+						verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
+						onloadCallback={() => {}}
+					    />
+					</Col>
+					<Col s={6}><ErrorInput touched={touched.when} error={errors.when}/></Col>
+					<Col s={6}><ErrorInput touched={touched.recaptcha} error={errors.recaptcha}/></Col>
+				    </Section>
+				</Col>
+			    </Row>
+			    <Row>
+				<Col offset='s2' s={8}>
+				    <DataAgreement/>
+				    <Input s={12} name='agreeTerms'
+					   className='filled-in'
+					   checked={values.agreeTerms === 'agreeTerms' }
+					   value='agreeTerms'
+					   type='checkbox'
+					   onChange={handleChange}
+					   onBlur={handleBlur}
+					   label='Jag ger er tillstånd att lagra och behandla mina användaruppgifter enligt användaravtalet.'
+				    />
+				    <Col s={12}><ErrorInput touched={touched.agreeTerms} error={errors.agreeTerms}/></Col>
+				</Col>
+			    </Row>
+			    <Row>
+				<Col offset='s2' s={8}>
+				    <Button type='submit' waves='light'
 					    icon='send' 
 					    disabled={!buttonEnable}>Skicka
-					</Button>
-				    </Col>
-				</Row>
-				<Row>{ contactPending && <Loader/> }</Row>
-				<Row>
-				    { contactPending && <p className='center'>Skickar intresseanmälan, vänta..</p> }
-				    { contactSuccess && <p className='center'>Vi har mottagit din intresseanmälan, tack!</p> }
-				    <Error error={contactError}/>
-				</Row>
-			    </div>
-			</form>
+				    </Button>
+				</Col>
+			    </Row>
+			    <Row>{ contactPending && <Loader/> }</Row>
+			    <Row>
+				{ contactPending && <p className='center'>Skickar intresseanmälan, vänta..</p> }
+				{ contactSuccess && <p className='center'>Vi har mottagit din intresseanmälan, tack!</p> }
+				<Error error={contactError}/>
+			    </Row>
+			</div>
+		    </form>
 		)}
 		/>}
 	    </div>
