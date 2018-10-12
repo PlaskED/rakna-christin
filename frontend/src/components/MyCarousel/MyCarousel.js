@@ -1,35 +1,67 @@
 import React, { Component } from "react";
-import { Carousel, Button } from 'react-materialize'
-// eslint-disable-next-line 
-import M from 'materialize-css'
+import { Button } from 'react-materialize'
+import { NavLink } from 'react-router-dom'
+
+import FaceBookSlider from '../FaceBook/FaceBookSlider'
 
 let $ = require('jquery');
 
 class MyCarousel extends Component {
     
     componentDidMount() {
-	var carousel_interval = 5000
-	setInterval(function() {
-	    $('.carousel').carousel('next');
-	}, carousel_interval);
+	$(document).ready(function(){
+	    $('.slider').slider();
+	});
     }
     render() {
+	let img_url = window.location.origin + '/img/'
+	let imgs = [
+	    img_url.concat('carousel_1.JPG'),
+	    img_url.concat('carousel_2.JPG'),
+	    img_url.concat('carousel_3.JPG'),
+	    img_url.concat('carousel_4.JPG')
+	]
 	return (
-	    <Carousel options={{ fullWidth: true }}>
-		<div className='red'>
-		    <h2>First Panel</h2>
-		    <p className='white-text'>This is your first panel</p>
-		    <Button type='submit' waves='light'>Mer info</Button>
-		</div>
-		<div className='amber'>
-		    <h2>Second Panel</h2>
-		    <p className='white-text'>This is your second panel</p>
-		</div>
-		<div className='green'>
-		    <h2>Third Panel</h2>
-		    <p className='white-text'>This is your third panel</p>
-		</div>
-	    </Carousel>
+	    <div className="slider">
+		<ul className="slides">
+		    <li>
+			<img src={imgs[0]} alt=""/>
+			<div className="caption center-align">
+			    <h2>Räkna med Christin</h2>
+			    <p className='white-text'>Matematikundervisning på grundskole- och gymnasienivå</p>
+			    <NavLink to='/info'>
+				<Button waves='light'>Mer info</Button>
+			    </NavLink>
+			</div>
+		    </li>
+		    <li>
+			<img src={imgs[1]} alt=""/>
+			<div className="caption center-align">
+			    <h2>Vi finns även på facebook</h2>
+			    <FaceBookSlider/>
+			</div>
+		    </li>
+		    <li>
+			<img src={imgs[2]} alt=""/>
+			<div className="caption center-align">
+			    <h2>Undervisning på dina villkor</h2>
+			    <p className='white-text'>Vi lägger upp en personlig plan</p>
+			</div>
+		    </li>
+		    <li>
+			<img src={imgs[3]} alt=""/>
+			<div className="caption center-align">
+			    <h2>Fotografihörnan</h2>
+			    <p className='white-text'>Är du intresserad av att använda bilder från oss?</p>
+			    <NavLink to='/fotografi'>
+				<Button waves='light'>
+				    Till Fotografihörnan
+				</Button>
+			    </NavLink>
+			</div>
+		    </li>
+		</ul>
+	    </div>
 	)
     }
 }

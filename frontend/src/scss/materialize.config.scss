@@ -125,3 +125,8 @@ height: 200px;
 .fb-page span iframe[style] {
     max-width: 100% !important;
 }
+
+.indicator-item.active {
+@extend .blue;
+@extend .lighten-1;
+}

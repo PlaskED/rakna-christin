@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, CardPanel, Button } from 'react-materialize'
+import { Row, Col, CardPanel } from 'react-materialize'
 import FaceBook from './components/FaceBook/FaceBook'
 import MyCarousel from './components/MyCarousel/MyCarousel'
 
