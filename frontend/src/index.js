@@ -19,10 +19,10 @@ WebFont.load({
 });
 
 ReactDOM.render(
-    <Provider store={store}>
-	<PersistGate loading={<Loader/>} persistor={persistor}>
-	    <Main/>
-	</PersistGate>
-    </Provider>,
+<Provider store={store}>
+    <PersistGate loading={<Loader/>} persistor={persistor}>
+	<Main/>
+    </PersistGate>
+</Provider>,
     document.getElementById("root")
 );

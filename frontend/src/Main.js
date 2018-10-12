@@ -24,7 +24,7 @@ class Main extends Component {
     componentDidMount() {
 	this.props.doRefreshToken(this.props.refreshToken)
 	let newTimer = setInterval(this.tick, 10000)
-	this.setState({timer: newTimer})
+	this.setState({timer: newTimer});
     }
     componentWillUnmount() {
 	clearInterval(this.state.timer)

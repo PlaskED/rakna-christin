@@ -2,15 +2,20 @@ import React, { Component } from "react";
 import { Row, Col, CardPanel, Carousel, Button } from 'react-materialize'
 // eslint-disable-next-line 
 import M from 'materialize-css'
+import FaceBook from './components/FaceBook/FaceBook'
+
 let $ = require('jquery');
 
 class Home extends Component {
+    
     componentDidMount() {
 	var carousel_interval = 5000
 	setInterval(function() {
 	    $('.carousel').carousel('next');
-	}, carousel_interval)
-
+	}, carousel_interval);
+	const FB = window.FB;
+	if (FB)
+	    FB.XFBML.parse();
     }
 
     render() {
@@ -41,11 +46,8 @@ class Home extends Component {
 		<Row>
 		    <Col s={4}>
 			<CardPanel>
-			    <img className="circle responsive-image col s12" 
-				 src={window.location.origin + '/img/start1.JPG'} 
-				 alt="start" />
-			    <p className="flow-text">Tänk att matematik kan vara roligt och intressant.</p>
-			    <p>När du förstår vill du bara lära dig ännu mer.</p>
+			    <h4>Kolla in oss på facebook!</h4>
+			    <FaceBook/>
 			</CardPanel>
 		    </Col>
 		    <Col s={4}>
@@ -53,7 +55,7 @@ class Home extends Component {
 			    <img className="circle responsive-image col s12" 
 				 src={window.location.origin + '/img/start2.JPG'} 
 				 alt="start" />
-			    <p className="flow-text">Bli bättre på att använda miniräknaren.</p>
+			    <h4>Bli bättre på att använda miniräknaren.</h4>
 			    <p>Att kunna använda sina grundkunskaper vid problemlösning
 				krävs idag i grundskola och gymnasium.</p>
 			</CardPanel>
@@ -63,7 +65,7 @@ class Home extends Component {
 			    <img className="circle responsive-image col s12" 
 				 src={window.location.origin + '/img/start3.JPG'} 
 				 alt="start" />
-			    <p className="flow-text">Förstå och använda formler.</p>
+			    <h4>Förstå och använda formler.</h4>
 			    <p>Formler kan vara roligt och spännande om man förstår och kan använda dem.</p>
 			</CardPanel>
 		    </Col>

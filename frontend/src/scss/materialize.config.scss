@@ -119,3 +119,9 @@ font-family: arial, sans-serif;
 overflow:auto;
 height: 200px;
 }
+
+.fb-page,
+.fb-page span,
+.fb-page span iframe[style] {
+    max-width: 100% !important;
+}
