@@ -10,7 +10,12 @@ class Prices extends Component {
 		    <Divider/>
 		</Row>
 		<Row>
-		    <Col s={6} className="left">
+		    <Col s={12} m={6} className="right">
+			<img className="responsive-image col s12" 
+			     src={window.location.origin + '/img/priser.JPG'} 
+			alt="Logo" />
+		    </Col>
+		    <Col s={12} m={6}>
 			<h4>
 			    Undervisning i Rönninge hos mig
 			</h4>
@@ -34,11 +39,6 @@ class Prices extends Component {
 			    </li>
 			</ul>
 			<p>Alla priser är inklusive moms.</p>
-		    </Col>
-		    <Col s={6}>
-			<img className="responsive-image col s12" 
-			     src={window.location.origin + '/img/priser.JPG'} 
-			alt="Logo" />
 		    </Col>
 		</Row>
 	    </div>

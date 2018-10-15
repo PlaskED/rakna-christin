@@ -12,7 +12,12 @@ class Contact extends Component {
 		    <Divider/>
 		</Row>
 		<Row>
-		    <Col s={6} className="left">
+		    <Col s={12} m={6} className="right">
+			<img className="responsive-image col s12" 
+			     src={window.location.origin + '/img/kontakt.JPG'} 
+			alt="Contact" />
+		    </Col>
+		    <Col s={12} m={6}>
 			<div className="col-md-7">
 			    <h4>Christin Holm</h4>
 			    <b>Mail: </b> 
@@ -30,11 +35,6 @@ class Contact extends Component {
 				Innehar F-skattebevis
 			    </blockquote>
 			</div>
-		    </Col>
-		    <Col s={6}>
-			<img className="responsive-image col s12" 
-			     src={window.location.origin + '/img/kontakt.JPG'} 
-			alt="Contact" />
 		    </Col>
 		</Row>
 		<Row>

@@ -19,13 +19,13 @@ class Home extends Component {
 		    <MyCarousel/>
 		</Row>
 		<Row>
-		    <Col s={4}>
+		    <Col s={12} m={4}>
 			<CardPanel>
 			    <h4>Kolla in oss på facebook!</h4>
 			    <FaceBook/>
 			</CardPanel>
 		    </Col>
-		    <Col s={4}>
+		    <Col s={12} m={4}>
 			<CardPanel>
 			    <img className="circle responsive-image col s12" 
 				 src={window.location.origin + '/img/start2.JPG'} 
@@ -35,7 +35,7 @@ class Home extends Component {
 				krävs idag i grundskola och gymnasium.</p>
 			</CardPanel>
 		    </Col>
-		    <Col s={4}>
+		    <Col s={12} m={4}>
 			<CardPanel>
 			    <img className="circle responsive-image col s12" 
 				 src={window.location.origin + '/img/start3.JPG'} 
