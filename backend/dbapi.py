@@ -46,6 +46,12 @@ def getUnread():
              .count()
     return {'unread': unread}
 
+def changeUnread(nid, checked):
+    notification = getNotification(nid)
+    notification.checked = checked
+    print(notification.to_json())
+    return helpers.commitResponse(models.db.session, {}, notification)
+
 def getNotifications(index):
     notifications = models.Notification.query\
                     .filter(models.Notification.id > index)\

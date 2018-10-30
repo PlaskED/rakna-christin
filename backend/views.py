@@ -86,7 +86,16 @@ def logoutRefresh():
     res['data'] = dbapi.blacklistToken(jti)
     return helpers.handleResponse(res)
 
-@app.route('/api/notifications/unread', methods=['GET'])
+@app.route('/api/notifications/unread/change', methods=['POST'])
+@jwt_required
+@cross_origin(headers=['Content-Type'])
+def changeUnread():
+    obj = request.get_json(silent=True)
+    res = {}
+    res['data'] = dbapi.changeUnread(obj['nid'], obj['checked'])
+    return helpers.handleResponse(res)
+
+@app.route('/api/notifications/unread/', methods=['GET'])
 @jwt_required
 @cross_origin(headers=['Content-Type'])
 def getUnread():
