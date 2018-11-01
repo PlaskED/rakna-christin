@@ -1,7 +1,6 @@
 import { UNREAD_PENDING, UNREAD_SUCCESS, 
 	 UNREAD_ERROR, SET_UNREAD, CHANGE_UNREAD_PENDING,
-	 CHANGE_UNREAD_SUCCESS, CHANGE_UNREAD_ERROR,
-	 CHANGE_UNREAD } from '../actions/types'
+	 CHANGE_UNREAD_SUCCESS, CHANGE_UNREAD_ERROR } from '../actions/types'
 
 export default function reducerUnread(state = {
     unreadPending: false,
@@ -47,12 +46,6 @@ export default function reducerUnread(state = {
 	    return {
 		...state,
 		changeUnreadError: action.changeUnreadError
-	    }
-	case CHANGE_UNREAD:
-	    return {
-		...state,
-		unread: state.notifications.map(it => 
-		    it.id === action.changeUnread.id ? { ...it, checked: action.changeUnread.checked } : it )
 	    }
 	default:
 	    return state

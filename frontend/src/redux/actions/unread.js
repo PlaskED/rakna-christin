@@ -2,7 +2,8 @@ import axios from 'axios'
 import { UNREAD_PENDING, UNREAD_SUCCESS, 
 	 UNREAD_ERROR, SET_UNREAD, 
 	 CHANGE_UNREAD_PENDING, CHANGE_UNREAD_SUCCESS, 
-	 CHANGE_UNREAD_ERROR, CHANGE_UNREAD } from './types'
+	 CHANGE_UNREAD_ERROR } from './types'
+import { changeUnread } from './notifications'
 import { api } from '../../globals'
 
 function setUnreadPending(unreadPending) {
@@ -54,12 +55,6 @@ function setChangeUnreadError(changeUnreadError) {
     }
 }
 
-function changeUnread(changeUnread) {
-    return {
-	type: CHANGE_UNREAD,
-	changeUnread
-    }
-}
 
 function callGetUnreadApi(token, cb) {
     setTimeout(() => {
@@ -87,7 +82,7 @@ function callChangeUnreadApi(token, nid, checked, cb) {
 	    },
 	    data: {
 		nid: nid,
-		checked: 'fun',
+		checked: checked,
 	    }
 	}).then(function(response) {
 	    return cb(response)

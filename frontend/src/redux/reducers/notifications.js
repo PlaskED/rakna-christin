@@ -1,7 +1,8 @@
 import { NOTIFICATIONS_PENDING, NOTIFICATIONS_SUCCESS, NOTIFICATIONS_ERROR,
 	 NOTIFICATIONS_SET_SCROLLABLE, NOTIFICATIONS_ADD_ELEMENTS, 
 	 NOTIFICATIONS_REMOVE_PENDING, NOTIFICATIONS_REMOVE_SUCCESS, 
-	 NOTIFICATIONS_REMOVE_ERROR, NOTIFICATIONS_REMOVE_ELEMENT } from '../actions/types'
+	 NOTIFICATIONS_REMOVE_ERROR, NOTIFICATIONS_REMOVE_ELEMENT,
+	 CHANGE_UNREAD } from '../actions/types'
 
 export default function reducerNotifications(state = {
     notificationsPending: false, 
@@ -58,6 +59,12 @@ export default function reducerNotifications(state = {
 	    return {
 		...state,
 		notifications: state.notifications.concat(action.newNotifications)
+	    }
+	case CHANGE_UNREAD:
+	    return {
+		...state,
+		notifications: state.notifications.map(it => 
+		    it.id === action.changeUnread.id ? { ...it, checked: action.changeUnread.checked } : it )
 	    }
 	default:
 	    return state

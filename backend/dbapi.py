@@ -49,7 +49,6 @@ def getUnread():
 def changeUnread(nid, checked):
     notification = getNotification(nid)
     notification.checked = checked
-    print(notification.to_json())
     return helpers.commitResponse(models.db.session, {}, notification)
 
 def getNotifications(index):

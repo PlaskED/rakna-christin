@@ -46,12 +46,11 @@ class Notifications extends Component {
 	this.props.doRemoveNotification(this.props.accessToken, removeId)
     }
 
-    changeUnread(nid, checked) {
+    onCheckboxChange(checked, nid) {
 	let { changeUnreadPending, accessToken } = this.props
-	alert(nid)
-	alert(checked)
-	if (!changeUnreadPending)
-	    this.props.doChangeUnread(accessToken, nid, checked)
+	this.props.doChangeUnread(accessToken, nid, checked)
+	// to force state update?
+	//this.setState({ checked: !this.state.checked });
     }
 
     render() {
@@ -68,10 +67,10 @@ class Notifications extends Component {
 				<Col s={2} m={4}><h5 className="left">#{it.id}</h5></Col>
 				<Col s={4} m={4}>
 				    <Input name='group1' type='checkbox'
-					   label={it.checked ? 'Läst' : 'Ej läst'} 
+					   label='Läst' 
 					   className='filled-in' 
 					   checked={it.checked}
-					   onClick={(e) => { this.props.doChangeUnread(it.id, e.target)}}/>
+					   onChange={(e) => this.onCheckboxChange(e.target.checked, it.id) }/>
 				</Col>
 				<Col s={6} m={4}>
 				    <Button className="right"
