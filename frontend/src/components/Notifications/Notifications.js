@@ -41,16 +41,14 @@ class Notifications extends Component {
 	this.props.getNotifications(accessToken, lastIndex)
     }
 
-    removeNotification(removeId) {
+    removeNotification(removeId, checked) {
 	this.setState({removeId: removeId})
-	this.props.doRemoveNotification(this.props.accessToken, removeId)
+	this.props.doRemoveNotification(this.props.accessToken, removeId, checked)
     }
 
     onCheckboxChange(checked, nid) {
-	let { changeUnreadPending, accessToken } = this.props
+	let { accessToken } = this.props
 	this.props.doChangeUnread(accessToken, nid, checked)
-	// to force state update?
-	//this.setState({ checked: !this.state.checked });
     }
 
     render() {
@@ -78,7 +76,7 @@ class Notifications extends Component {
 					    disabled={removePending}
 					    icon='delete_forever'
 					    onClick={(e) => {
-						    if (window.confirm('Vill du ta bort notifikationen?')) this.removeNotification(it.id) }
+						    if (window.confirm('Vill du ta bort notifikationen?')) this.removeNotification(it.id, it.checked) }
 					    }>
 					Ta Bort
 				    </Button>
@@ -125,14 +123,13 @@ const mapStateToProps = (state) => {
 	removePending: state.reducerNotifications.notificationRemovePending,
 	removeError: state.reducerNotifications.notificationRemoveError,
 	notifications: state.reducerNotifications.notifications,
-	changeUnreadPending: state.reducerUnread.changeUnreadPending,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
 	getNotifications: (token, index) => dispatch(getNotifications(token, index)),
-	doRemoveNotification: (token, removeId) => dispatch(doRemoveNotification(token, removeId)),
+	doRemoveNotification: (token, removeId, checked) => dispatch(doRemoveNotification(token, removeId, checked)),
 	doChangeUnread: (token, nid, checked) => 
 	    dispatch(doChangeUnread(token, nid, checked))
     }

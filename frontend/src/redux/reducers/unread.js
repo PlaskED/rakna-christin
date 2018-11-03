@@ -1,6 +1,7 @@
 import { UNREAD_PENDING, UNREAD_SUCCESS, 
 	 UNREAD_ERROR, SET_UNREAD, CHANGE_UNREAD_PENDING,
-	 CHANGE_UNREAD_SUCCESS, CHANGE_UNREAD_ERROR } from '../actions/types'
+	 CHANGE_UNREAD_SUCCESS, CHANGE_UNREAD_ERROR, 
+	 INCREASE_UNREAD, DECREASE_UNREAD } from '../actions/types'
 
 export default function reducerUnread(state = {
     unreadPending: false,
@@ -31,6 +32,16 @@ export default function reducerUnread(state = {
 	    return {
 		...state,
 		unread: action.unread
+	    }
+	case INCREASE_UNREAD:
+	    return {
+		...state,
+		unread: state.unread + 1
+	    }
+	case DECREASE_UNREAD:
+	    return {
+		...state,
+		unread: state.unread - 1
 	    }
 	case CHANGE_UNREAD_SUCCESS:
 	    return {

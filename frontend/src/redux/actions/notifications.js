@@ -2,8 +2,8 @@ import axios from 'axios'
 import { NOTIFICATIONS_PENDING, NOTIFICATIONS_SUCCESS, NOTIFICATIONS_ERROR,
 	 NOTIFICATIONS_SET_SCROLLABLE, NOTIFICATIONS_ADD_ELEMENTS, 
 	 NOTIFICATIONS_REMOVE_PENDING, NOTIFICATIONS_REMOVE_SUCCESS, 
-	 NOTIFICATIONS_REMOVE_ERROR, NOTIFICATIONS_REMOVE_ELEMENT,
-	 CHANGE_UNREAD } from './types'
+	 NOTIFICATIONS_REMOVE_ERROR, NOTIFICATIONS_REMOVE_ELEMENT } from './types'
+import { decreaseUnread } from './unread'
 import { api } from '../../globals'
 
 function setNotificationsPending(notificationsPending) {
@@ -69,13 +69,6 @@ export function addNotifications(newNotifications) {
     }
 }
 
-export function changeUnread(changeUnread) {
-    return {
-	type: CHANGE_UNREAD,
-	changeUnread
-    }
-}
-
 function callGetNotificationsApi(token, index, cb) {
     setTimeout(() => {
 	axios({
@@ -129,7 +122,7 @@ export function getNotifications(token, index) {
     }
 }
 
-export function doRemoveNotification(token, removeId) {
+export function doRemoveNotification(token, removeId, checked) {
     return dispatch => {
 	dispatch(setNotificationRemovePending(true))
 	dispatch(setNotificationRemoveSuccess(false))
@@ -140,6 +133,8 @@ export function doRemoveNotification(token, removeId) {
 	    if (cb.status === 204) {
 		dispatch(removeNotification(removeId))
 		dispatch(setNotificationRemoveSuccess(true))
+		if (checked)
+		    dispatch(decreaseUnread())
 	    } else {
 		dispatch(setNotificationRemoveSuccess(false))
 		dispatch(setNotificationRemoveError(cb))
