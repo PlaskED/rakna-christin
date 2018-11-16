@@ -217,9 +217,9 @@ class ContactForm extends Component {
 							 value={values.number || ''}
 							 label='Nummer'
 						/>
-						<Col s={5} m={5}><ErrorInput touched={touched.city} error={errors.city}/>Hej</Col>
-						<Col s={5} m={5}><ErrorInput touched={touched.road} error={errors.road}/>Hej</Col>
-						<Col s={2} m={5}><ErrorInput touched={touched.number} error={errors.number}/>Hej</Col>
+						<Col s={5} m={5}><ErrorInput touched={touched.city} error={errors.city}/></Col>
+						<Col s={5} m={5}><ErrorInput touched={touched.road} error={errors.road}/></Col>
+						<Col s={2} m={5}><ErrorInput touched={touched.number} error={errors.number}/></Col>
 					    </Section>
 					</Col>
 				    </Row>
@@ -270,8 +270,8 @@ class ContactForm extends Component {
 						    onloadCallback={() => {}}
 						    />
 						</Col>
-						<Col s={6} m={6}><ErrorInput touched={touched.when} error={errors.when}/>hej</Col>
-						<Col s={6} m={6}><ErrorInput touched={touched.recaptcha} error={errors.recaptcha}/>hej</Col>
+						<Col s={6} m={6}><ErrorInput touched={touched.when} error={errors.when}/></Col>
+						<Col s={6} m={6}><ErrorInput touched={touched.recaptcha} error={errors.recaptcha}/></Col>
 					    </Section>
 					</Col>
 				    </Row>
