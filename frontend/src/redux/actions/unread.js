@@ -137,10 +137,13 @@ export function doChangeUnread(token, nid, checked) {
 	    if (cb.status === 200) {
 		dispatch(changeUnread(cb.data.data))
 		dispatch(setChangeUnreadSuccess(true))
-		if (checked)
-		    dispatch(increaseUnread())
-		else 
-		    dispatch(decreaseUnread())
+		const new_checked = cb.data.data.checked
+		if (cb.data.prev_checked !== new_checked) {
+		    if (new_checked === false)
+			dispatch(increaseUnread())
+		    else
+			dispatch(decreaseUnread())
+		}
 	    } else {
 		dispatch(setChangeUnreadSuccess(false))
 		dispatch(setChangeUnreadError(cb))

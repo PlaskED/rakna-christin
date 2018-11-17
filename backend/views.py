@@ -91,8 +91,7 @@ def logoutRefresh():
 @cross_origin(headers=['Content-Type'])
 def changeUnread():
     obj = request.get_json(silent=True)
-    res = {}
-    res['data'] = dbapi.changeUnread(obj['nid'], obj['checked'])
+    res = dbapi.changeUnread(obj['nid'], obj['checked'])
     return helpers.handleResponse(res)
 
 @app.route('/api/notifications/unread', methods=['GET'])

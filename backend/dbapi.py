@@ -48,8 +48,9 @@ def getUnread():
 
 def changeUnread(nid, checked):
     notification = getNotification(nid)
+    res = { "prev_checked":notification.checked }
     notification.checked = checked
-    return helpers.commitResponse(models.db.session, {}, notification)
+    return helpers.commitResponse(models.db.session, res, notification)
 
 def getNotifications(index):
     notifications = models.Notification.query\
