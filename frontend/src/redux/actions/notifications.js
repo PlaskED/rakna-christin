@@ -133,7 +133,7 @@ export function doRemoveNotification(token, removeId, checked) {
 	    if (cb.status === 204) {
 		dispatch(removeNotification(removeId))
 		dispatch(setNotificationRemoveSuccess(true))
-		if (checked)
+		if (!checked)
 		    dispatch(decreaseUnread())
 	    } else {
 		dispatch(setNotificationRemoveSuccess(false))

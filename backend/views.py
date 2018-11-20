@@ -56,7 +56,6 @@ def login():
 
 @app.route('/api/token/refresh', methods=['POST'])
 @jwt_refresh_token_required
-@cross_origin(headers=['Content-Type'])
 def refreshAccessToken():
     username = get_jwt_identity()
     res = {}
@@ -88,7 +87,6 @@ def logoutRefresh():
 
 @app.route('/api/notifications/unread/change', methods=['GET','POST'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
 def changeUnread():
     obj = request.get_json(silent=True)
     res = dbapi.changeUnread(obj['nid'], obj['checked'])
@@ -96,7 +94,6 @@ def changeUnread():
 
 @app.route('/api/notifications/unread', methods=['GET'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
 def getUnread():
     res = {}
     res['data'] = dbapi.getUnread()
@@ -104,7 +101,6 @@ def getUnread():
         
 @app.route('/api/notifications/<int:index>', methods=['GET'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
 def getNotifications(index):
     res = {}
     res['data'] = dbapi.getNotifications(index)
@@ -139,7 +135,6 @@ def getImages(index):
 
 @app.route('/api/image/upload', methods=['POST'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
 def uploadImages():
     if request.method == 'POST':
         res = {'data':{'uploaded':[], 'failed':[]}}
@@ -161,7 +156,6 @@ def uploadImages():
 
 @app.route('/api/image/delete', methods=['POST'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
 def deleteImages():
     obj = request.get_json(silent=True)
     images_idx = obj['delete_images']
@@ -170,7 +164,6 @@ def deleteImages():
 
 @app.route('/api/user/email/change', methods=['POST'])
 @jwt_required
-@cross_origin(headers=['Content-Type'])
 def changeEmail():
     obj = request.get_json(silent=True)
     user = dbapi.getUserByName(get_jwt_identity()).to_json()
@@ -183,3 +176,11 @@ def changeEmail():
         html = render_template('subscription.html')
         helpers.send_email(to, subject, html)
     return helpers.handleResponse(res, 200)
+
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  return response
+
