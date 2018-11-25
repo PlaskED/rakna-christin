@@ -1,12 +1,13 @@
 from backend import app, dbapi, helpers, security, jwt
-from flask import render_template, request
+from flask import render_template, request, abort
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, jwt_refresh_token_required,
                                 get_jwt_identity, get_raw_jwt)
 from flask_uploads import (patch_request_class, configure_uploads,
                            UploadSet, IMAGES, UploadNotAllowed)
 from flask_cors import CORS, cross_origin
-CORS(app)
+#CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": ["http://www.raknamedchristin.se", "https://www.raknamedchristin.se"]}})
 patch_request_class(app, app.config['MAX_CONTENT_LENGTH']) 
 photos = UploadSet(app.config['IMAGES_DEST'], IMAGES)
 configure_uploads(app, (photos))
@@ -177,10 +178,14 @@ def changeEmail():
         helpers.send_email(to, subject, html)
     return helpers.handleResponse(res, 200)
 
+#def check_request(request):
+#    if request.remote_addr != '127.0.0.1:3001':
+#        return abort(403)
+
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-  return response
+    #response.headers.add('Access-Control-Allow-Origin', 'https://www.raknamedchristin.se')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
 
