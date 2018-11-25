@@ -64,12 +64,12 @@ class MyGallery extends Component {
     }
 
     getPhotos() {
-	let { accessToken, galleryPhotos } = this.props
+	let { galleryPhotos } = this.props
 	const path = window.location.origin + '/uploads/photos/'
 	var lastIndex = 0
 	if (galleryPhotos.length > 0)
 	    lastIndex = galleryPhotos[galleryPhotos.length-1].alt
-	this.props.doGalleryAdd(accessToken, lastIndex, path)	
+	this.props.doGalleryAdd(lastIndex, path)	
     }
 
     render() {
@@ -125,8 +125,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
 	doGalleryRemove: (token, imagesIdx, photos) =>
 	    dispatch(doGalleryRemove(token, imagesIdx, photos)),
-	doGalleryAdd: (token, lastIndex, path) =>
-	    dispatch(doGalleryAdd(token, lastIndex, path)),
+	doGalleryAdd: (lastIndex, path) =>
+	    dispatch(doGalleryAdd(lastIndex, path)),
 	doSetGalleryPhotos: (photos) =>
 	    dispatch(doSetGalleryPhotos(photos))
     }

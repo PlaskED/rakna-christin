@@ -94,13 +94,10 @@ function callGalleryRemoveApi(accessToken, imagesIdx, cb) {
     }, 5000)
 }
 
-function callGalleryAddApi(accessToken, lastIndex, cb) {
+function callGalleryAddApi(lastIndex, cb) {
     axios({
 	method:'get',
-	url: api.concat('/images/'.concat(lastIndex)),
-	headers: {
-	    Authorization: 'Bearer '.concat(accessToken)
-	}
+	url: api.concat('/images/'.concat(lastIndex))
     }).then(function(response) {
 	return cb(response)
     }).catch(function(err) {
@@ -128,7 +125,7 @@ export function doGalleryRemove(accessToken, imagesIdx, photos) {
     }
 }
 
-export function doGalleryAdd(accessToken, lastIndex, path) {
+export function doGalleryAdd(lastIndex, path) {
     return dispatch => {
 	dispatch(setGalleryAddPending(true))
 	dispatch(setGalleryAddSuccess(false))
