@@ -23,7 +23,6 @@ class ContactForm extends Component {
 	    contactError: null,
 	    when: null
 	}
-	this.handleDateChange = this.handleDateChange.bind(this)
     }
 
     componentDidMount() {
@@ -34,10 +33,6 @@ class ContactForm extends Component {
 	script.defer = true;
 	document.body.appendChild(script);
     }
-
-    handleDateChange(date) {
-	this.setState({when: date})
-    }
     
     // Formats address for backend
     formattedAddress(city, road, number) {
@@ -46,7 +41,7 @@ class ContactForm extends Component {
     }
 
     contactSubmit(values) {
-	let { name, comment, email, telephone, city, road, number, recaptcha } = values
+	let { name, comment, email, telephone, city, road, number, recaptcha, when } = values
 	this.setState({contactPending: true})
 	axios({
 	    method:'post',
@@ -57,15 +52,14 @@ class ContactForm extends Component {
 		email: email,
 		telephone: telephone,
 		address: this.formattedAddress(city, road, number),
-		when: this.state.when,
+		when: when,
 		recaptcha: recaptcha
 	    }
 	}).then(response => {
 	    this.setState({ 
 		contactPending: false,
 		contactSuccess: true,
-		contactError: null,
-		when: moment(),
+		contactError: null
 	    })
 	}).catch(err => { this.setState({contactError: err, contactSuccess:false, contactPending:false}) })
     }
@@ -86,7 +80,7 @@ class ContactForm extends Component {
 			    city: '', 
 			    road: '', 
 			    number: '',
-			    when: '',
+			    when: moment(),
 			    recaptcha: '',
 			    agreeTerms: '',
 			}}
@@ -131,7 +125,7 @@ class ContactForm extends Component {
 				} else if (values.comment.length < 10 || values.comment.length > 2048) {
 				    errors.comment = 'Beskrivning måste vara mellan 10 och 2048 tecken';
 				}
-				if (!this.state.when) {
+				if (!values.when) {
 				    errors.when = 'Obligatoriskt fält';
 				} else if (!errors.when instanceof Date) {
 				    errors.when = 'Välj ett korrekt datum (YYYY-MM-DD)';
@@ -149,7 +143,6 @@ class ContactForm extends Component {
 				    this.contactSubmit(values)
 				    resetForm({});
 				}
-				alert(values.agreeTerms)
 			}}
 			render={({
 				values,
@@ -241,9 +234,9 @@ class ContactForm extends Component {
 							Från vilket datum vill du ha hjälp?
 						    </span>
 						    <DatePicker name='when'
-						    selected={this.state.when}
-						    onChange={this.handleDateChange}
-						    onBlur={handleBlur}
+						    selected={values.when}
+						    onChange={value => setFieldValue('when', value)}
+						    //onBlur={handleBlur}
 						    minDate={moment()}
 						    locale='sv'
 						    dateFormat="YYYY-MM-DD"
@@ -284,7 +277,11 @@ class ContactForm extends Component {
 						     checked={values.agreeTerms === 'agreeTerms' }
 						     value='agreeTerms'
 						     type='checkbox'
-						     onChange={handleChange}
+						     onChange={e => { if (values.agreeTerms !== 'agreeTerms') {
+							 setFieldValue('agreeTerms', e.target.value); 
+						     } else {
+							 setFieldValue('agreeTerms', '');
+						     }}}
 						     onBlur={handleBlur}
 						     label='Jag ger er tillstånd att lagra och behandla mina användaruppgifter enligt användaravtalet.'
 					    />
