@@ -132,7 +132,7 @@ export function doGalleryAdd(lastIndex, path) {
 	dispatch(setGalleryAddError(null))
 	dispatch(setGalleryScrollable(false))
 	
-	callGalleryAddApi(accessToken, lastIndex, cb => {
+	callGalleryAddApi(lastIndex, cb => {
 	    dispatch(setGalleryAddPending(false))
 	    if (cb.status === 200) {
 		dispatch(setGalleryAddSuccess(true))

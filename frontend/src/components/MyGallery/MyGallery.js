@@ -8,6 +8,7 @@ import { doGalleryRemove,
 	 doSetGalleryPhotos } from '../../redux/actions/gallery'
 import Loader from '../Loader/Loader'
 import Error from '../Error/Error'
+import { photosUri } from '../../globals'
 
 class MyGallery extends Component {
     constructor(props) {
@@ -65,7 +66,7 @@ class MyGallery extends Component {
 
     getPhotos() {
 	let { galleryPhotos } = this.props
-	const path = window.location.origin + '/uploads/photos/'
+	const path = photosUri
 	var lastIndex = 0
 	if (galleryPhotos.length > 0)
 	    lastIndex = galleryPhotos[galleryPhotos.length-1].alt
