@@ -16,27 +16,22 @@ class Prices extends Component {
 			alt="Logo" />
 		    </Col>
 		    <Col s={12} m={6}>
-			<h4>
-			    Undervisning i Rönninge hos mig
-			</h4>
+			<h4>Undervisning i Stockholm City</h4>
 			<ul className="circle">
-			    <li>
-				Prova-på-erbjudande! 3 h - 1 000 kr
-			    </li>
-			    <li>
-				Undervisning för en person - 450 kr/h
-			    </li>
+			    <li>Undervisning en elev, hos mig - 450 kr/h</li>
+			    <li>Undervisning en elev, hos elev - 550 kr/h</li>
 			</ul>
-			<h4>Undervisning hemma hos elev</h4>
+			<h4>Undervisning i Rönninge</h4>
 			<ul className="circle">
-			    <li>
-				Undervisning för en person - 550 kr/h
-				<ul>
-				    <li>
-					
-				    </li>
-				</ul>
-			    </li>
+			    <li>Undervisning en elev, hos elev (minst 1.5 timme) - 550 kr/h</li>
+			</ul>
+	    		<h4>Undervisning i Skype</h4>
+			<ul className="circle">
+			    <li>Undervisning en elev - 450 kr/h</li>
+			</ul>
+	    		<h4>Vid undervisning av två elever</h4>
+			<ul className="circle">
+			    <li>50% rabatt för elev 2</li>
 			</ul>
 			<p>Alla priser är inklusive moms.</p>
 		    </Col>
