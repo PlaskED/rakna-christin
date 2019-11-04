@@ -114,7 +114,8 @@ def createNotification():
         err = helpers.generateError('Incorrect recaptcha', 400)
         return helpers.handleResponse(err)
     res = dbapi.createNotification(obj)
-    if 'data' in res:
+    useMail = False #Mailing disabled for now
+    if useMail and 'data' in res:
         #to = app.config['MAIL_NOTIFY_GROUP']
         to = dbapi.getAdminMailList()
         subject = "Ny intresseanmälan"
