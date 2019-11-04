@@ -6,8 +6,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from flask_uploads import (patch_request_class, configure_uploads,
                            UploadSet, IMAGES, UploadNotAllowed)
 from flask_cors import CORS, cross_origin
-#CORS(app)
-cors = CORS(app, resources={r"/api/*": {"origins": ["http://www.raknamedchristin.se", "https://www.raknamedchristin.se"]}})
+cors = CORS(app, resources={r"/api/*": {"origins": ["http://www.raknamedchristin.se*", "https://www.raknamedchristin.se*"]}})
 patch_request_class(app, app.config['MAX_CONTENT_LENGTH']) 
 photos = UploadSet(app.config['IMAGES_DEST'], IMAGES)
 configure_uploads(app, (photos))
@@ -116,8 +115,8 @@ def createNotification():
     res = dbapi.createNotification(obj)
     useMail = False #Mailing disabled for now
     if useMail and 'data' in res:
-        #to = app.config['MAIL_NOTIFY_GROUP']
-        to = dbapi.getAdminMailList()
+        to = app.config['MAIL_NOTIFY_GROUP']
+        #to = dbapi.getAdminMailList()
         subject = "Ny intresseanmälan"
         html = render_template('notify.html')
         helpers.send_email(to, subject, html)
@@ -179,13 +178,8 @@ def changeEmail():
         helpers.send_email(to, subject, html)
     return helpers.handleResponse(res, 200)
 
-#def check_request(request):
-#    if request.remote_addr != '127.0.0.1:3001':
-#        return abort(403)
-
 @app.after_request
 def after_request(response):
-    #response.headers.add('Access-Control-Allow-Origin', 'https://www.raknamedchristin.se')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
