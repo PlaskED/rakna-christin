@@ -25,7 +25,7 @@ class Info extends Component {
 			kunskapen behöver stärkas för att du ska lyckas så bra
 			som möjligt att nå dina mål. <br/>Undervisningen sker
 			hemma hos mig eller dig. Vid undervisning hos mig på 
-			Enstigen i Rönninge finns det en bra undervisningsmiljö
+			Drottninggatan i Stockholm finns det en bra undervisningsmiljö
 			för bästa inlärning.<br/> Till vårt förfogande finns det 
 			bland annat whiteboard, miniräknare, dator, laborativt 
 			material, läroböcker med mera för att optimera pluggandet.
@@ -36,7 +36,7 @@ class Info extends Component {
 		    </p>
 		    <h4>Lite kort om mig</h4>
 		    <p>
-			Jag utbildade mig för 10 år sedan på lärarhögskolan i 
+			Jag utbildade mig för 15 år sedan på lärarhögskolan i 
 			Stockholm och är en erfaren matematiklärare som arbetat 
 			både på grundskola och gymnasium.
 		    </p>
