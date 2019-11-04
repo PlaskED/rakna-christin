@@ -109,6 +109,9 @@ def deleteImages(images_idx):
         image_object = getImage(imgId)
         if image_object is None:
             return errorhelper.generateError("Image doesn't exist", 400)
-        os.remove(image_object.path) # Delete file on system
+        try:
+            os.remove(image_object.path) # Delete file on system
+        except:
+            print("Couldn't find file on system")
         models.db.session.delete(image_object) # Delete file entry in database
     return helpers.commitResponse(models.db.session, {})
