@@ -33,6 +33,7 @@ class Prices extends Component {
 			<ul className="circle">
 			    <li>50% rabatt för elev 2</li>
 			</ul>
+	    		<Divider/>
 			<p>Alla priser är inklusive moms.</p>
 		    </Col>
 		</Row>
