@@ -17,9 +17,9 @@ export default () => (
 		</ul>
 	    }
     >
-	<h5 className='white-text'>Additional Information</h5>
+	<h5 className='white-text'></h5>
 	<p className='white-text text-lighten-4'>
-	    You can use rows and columns here to organize your footer content.
+
 	</p>
     </Footer>
 )
