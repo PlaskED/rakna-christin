@@ -18,16 +18,16 @@ class Prices extends Component {
 		    <Col s={12} m={6}>
 			<h4>Undervisning i Stockholm City</h4>
 			<ul className="circle">
-			    <li>Undervisning en elev, hos mig - 450 kr/h</li>
-			    <li>Undervisning en elev, hos elev - 550 kr/h</li>
+			    <li>Undervisning en elev, hos mig - 500 kr/h</li>
+			    <li>Undervisning en elev, hos elev - 600 kr/h</li>
 			</ul>
 			<h4>Undervisning i Rönninge</h4>
 			<ul className="circle">
-			    <li>Undervisning en elev, hos elev (minst 1.5 timme) - 550 kr/h</li>
+			    <li>Undervisning en elev, hos elev (minst 1.5 timme) - 600 kr/h</li>
 			</ul>
-	    		<h4>Undervisning i Skype</h4>
+	    		<h4>Undervisning med Videosamtal</h4>
 			<ul className="circle">
-			    <li>Undervisning en elev - 450 kr/h</li>
+			    <li>Undervisning en elev - 500 kr/h</li>
 			</ul>
 	    		<h4>Vid undervisning av två elever</h4>
 			<ul className="circle">
