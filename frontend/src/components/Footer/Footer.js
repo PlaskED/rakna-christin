@@ -17,9 +17,9 @@ export default () => (
 		</ul>
 	    }
     >
-	<h5 className='white-text'></h5>
+	<h5 className='white-text'>-</h5>
 	<p className='white-text text-lighten-4'>
-
+	    -
 	</p>
     </Footer>
 )
