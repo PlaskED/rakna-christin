@@ -26,7 +26,7 @@
     "materialize-css": "^0.100.2",
     "materialize-loader": "^2.0.3",
     "moment": "^2.22.2",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.13.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
