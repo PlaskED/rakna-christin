@@ -25,7 +25,7 @@
     "jquery-validation": "^1.18.0",
     "materialize-css": "^0.100.2",
     "materialize-loader": "^2.0.3",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "node-sass": "^4.10.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
