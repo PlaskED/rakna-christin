@@ -22,7 +22,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
-    "jquery-validation": "^1.18.0",
+    "jquery-validation": "^1.19.5",
     "materialize-css": "^0.100.2",
     "materialize-loader": "^2.0.3",
     "moment": "^2.22.2",
